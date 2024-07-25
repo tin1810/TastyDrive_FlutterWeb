@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
-import 'package:tasty_drive_website/presentation/home/widget/footer_section.dart';
-import 'package:tasty_drive_website/presentation/home/widget/line_painter.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/footer_section.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/line_painter.dart';
 import 'package:tasty_drive_website/responsive.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tasty_drive_website/presentation/login/widget/email_widget.dart';
-import 'package:tasty_drive_website/presentation/login/widget/password_widget.dart';
+import 'package:tasty_drive_website/presentation/customer_side/login/widget/email_widget.dart';
+import 'package:tasty_drive_website/presentation/customer_side/login/widget/password_widget.dart';
 
 class LoginViewWidget extends StatefulWidget {
   final Function onChangeEmail, onChangePassword, onTapGoToSignUp, onTapLogin;

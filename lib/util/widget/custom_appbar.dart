@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
-import 'package:tasty_drive_website/presentation/about/about_us_screen.dart';
-import 'package:tasty_drive_website/presentation/blog/blog_screen.dart';
-import 'package:tasty_drive_website/presentation/checkout/checkout_screen.dart';
-import 'package:tasty_drive_website/presentation/contact/contact_screen.dart';
-import 'package:tasty_drive_website/presentation/home/home_page.dart';
-import 'package:tasty_drive_website/presentation/home/home_view_page.dart';
-import 'package:tasty_drive_website/presentation/login/login.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/hover_icon.dart';
+import 'package:tasty_drive_website/presentation/customer_side/about/about_us_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/blog/blog_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/checkout/checkout_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/contact/contact_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_view_page.dart';
+import 'package:tasty_drive_website/presentation/customer_side/login/login.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/hover_icon.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

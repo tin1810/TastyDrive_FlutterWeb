@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tasty_drive_website/presentation/checkout/checkout_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/checkout/checkout_screen.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class HoverableIconButton extends StatefulWidget {

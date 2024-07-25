@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/presentation/home/widget/best_in_town.dart';
-import 'package:tasty_drive_website/presentation/home/widget/footer_section.dart';
-import 'package:tasty_drive_website/presentation/home/widget/header_banner.dart';
-import 'package:tasty_drive_website/presentation/home/widget/service_section.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/best_in_town.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/footer_section.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/header_banner.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/service_section.dart';
 
 class HomeViewPage extends StatelessWidget {
   const HomeViewPage({

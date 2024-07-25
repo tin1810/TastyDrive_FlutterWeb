@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/detail_card.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/detail_card.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class GridViewDetail extends StatelessWidget {

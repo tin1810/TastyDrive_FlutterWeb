@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/presentation/home/widget/line_painter.dart';
-import 'package:tasty_drive_website/presentation/login/login.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/detail_text_widget.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/grid_view_detail.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/hover_icon.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/restaurant_card_widget.dart';
-import 'package:tasty_drive_website/presentation/restaurant/widget/route_to_other.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/line_painter.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/detail_text_widget.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/grid_view_detail.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/restaurant_card_widget.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/route_to_other.dart';
 import 'package:tasty_drive_website/responsive.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar.dart';
 
@@ -51,7 +49,7 @@ class RestaurantDetailScreen extends StatelessWidget {
               ),
             ),
             const GridViewDetail(),
-            DetailTextWidget(
+            const DetailTextWidget(
               name: "Juice",
               hasIcon: false,
             ),

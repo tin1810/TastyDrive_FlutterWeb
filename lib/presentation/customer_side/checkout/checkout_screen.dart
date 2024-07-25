@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/presentation/checkout/widget/cart_item.dart';
-import 'package:tasty_drive_website/presentation/checkout/widget/order_summary.dart';
-import 'package:tasty_drive_website/presentation/home/widget/footer_section.dart';
-import 'package:tasty_drive_website/presentation/home/widget/line_painter.dart';
+import 'package:tasty_drive_website/presentation/customer_side/checkout/widget/cart_item.dart';
+import 'package:tasty_drive_website/presentation/customer_side/checkout/widget/order_summary.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/footer_section.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/line_painter.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});

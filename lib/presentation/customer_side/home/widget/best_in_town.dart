@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/presentation/home/widget/line_painter.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/widget/line_painter.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class BestInTownSection extends StatelessWidget {

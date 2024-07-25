@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/presentation/home/home_page.dart';
-import 'package:tasty_drive_website/presentation/restaurant/all_restaurant.dart';
-import 'package:tasty_drive_website/presentation/restaurant/restaurant_detail.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/all_restaurant.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/restaurant_detail.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class RouteToOtherWidget extends StatelessWidget {

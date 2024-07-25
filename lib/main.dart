@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
-import 'package:tasty_drive_website/presentation/about/about_us_screen.dart';
-import 'package:tasty_drive_website/presentation/checkout/checkout_screen.dart';
-import 'package:tasty_drive_website/presentation/home/home_view_page.dart';
-import 'package:tasty_drive_website/presentation/restaurant/all_restaurant.dart';
-import 'package:tasty_drive_website/presentation/home/home_page.dart';
-import 'package:tasty_drive_website/presentation/restaurant/restaurant_detail.dart';
+import 'package:tasty_drive_website/presentation/customer_side/about/about_us_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/checkout/checkout_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_view_page.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/all_restaurant.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/restaurant_detail.dart';
 
 void main() {
   runApp(const MyApp());
