@@ -5,9 +5,11 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class RestaurantCardWidget extends StatelessWidget {
+  final String name;
   const RestaurantCardWidget({
     super.key,
     required this.width,
+    required this.name,
   });
 
   final double width;
@@ -35,7 +37,7 @@ class RestaurantCardWidget extends StatelessWidget {
                   left: Responsive.isMobile(context) ? 15 : 30,
                 ),
                 child: Text(
-                  "Fire Tiger",
+                  name,
                   style: GoogleFonts.poppins(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,

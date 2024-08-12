@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/add_to_cart_dialog.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class DetailItemCard extends StatefulWidget {
   final IconData icon;
   final String itemName;
-  final String price;
+  final double price;
   final String ingredint;
-
+  final Function onClick;
   const DetailItemCard({
     Key? key,
     required this.icon,
     required this.itemName,
     required this.price,
     required this.ingredint,
+    required this.onClick,
   }) : super(key: key);
 
   @override
@@ -98,14 +100,15 @@ class _DetailItemCardState extends State<DetailItemCard>
                     ),
                     SizedBox(
                       width: Responsive.isDesktop(context)
-                          ? null
+                          ? width * 0.3
                           : Responsive.isMobile(context)
                               ? width * 0.3
-                              : width * 0.18,
+                              : width * 0.7,
                       child: Text(
                         widget.ingredint,
                         softWrap: true,
-                        overflow: TextOverflow.visible,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                         style: GoogleFonts.poppins(
                           fontSize: Responsive.isDesktop(context) ? 16 : 12,
                           fontWeight: FontWeight.w400,
@@ -146,7 +149,9 @@ class _DetailItemCardState extends State<DetailItemCard>
                           ),
                           child: IconButton(
                               mouseCursor: MouseCursor.defer,
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.onClick();
+                              },
                               icon: const Icon(
                                 Icons.add,
                                 color: Colors.white,

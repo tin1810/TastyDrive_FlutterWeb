@@ -39,7 +39,10 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
-
+  http: ^1.2.2
+  logger: ^2.4.0
+  flutter_easyloading: any
+  dio: ^5.5.0+1
 
 
 

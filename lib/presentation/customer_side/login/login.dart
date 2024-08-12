@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/email_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/password_widget.dart';
+import 'package:tasty_drive_website/presentation/customer_side/login/widget/sign_up_dialog.dart';
 
 class LoginViewWidget extends StatefulWidget {
-  final Function onChangeEmail, onChangePassword, onTapGoToSignUp, onTapLogin;
+  final Function onChangeEmail, onChangePassword, onTapLogin;
   final TextEditingController emailController, passwordController;
 
   const LoginViewWidget({
@@ -13,7 +16,6 @@ class LoginViewWidget extends StatefulWidget {
     required this.onChangePassword,
     required this.emailController,
     required this.passwordController,
-    required this.onTapGoToSignUp,
     required this.onTapLogin,
   });
 
@@ -108,7 +110,8 @@ class _LoginViewWidgetState extends State<LoginViewWidget> {
                           const TextStyle(color: Colors.amber, fontSize: 14.0),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          widget.onTapGoToSignUp();
+                          Get.back();
+                          signupDialog();
                         },
                     ),
                   ],

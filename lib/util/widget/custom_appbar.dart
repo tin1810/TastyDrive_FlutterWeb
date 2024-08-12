@@ -138,7 +138,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             passwordController: TextEditingController(),
                             onChangeEmail: () {},
                             onChangePassword: () {},
-                            onTapGoToSignUp: () {},
                             onTapLogin: () {},
                           );
                         });
@@ -213,7 +212,6 @@ class CustomAppBarRestaurant extends StatelessWidget
                     passwordController: TextEditingController(),
                     onChangeEmail: () {},
                     onChangePassword: () {},
-                    onTapGoToSignUp: () {},
                     onTapLogin: () {},
                   );
                 });
@@ -238,7 +236,6 @@ class CustomAppBarRestaurant extends StatelessWidget
                       passwordController: TextEditingController(),
                       onChangeEmail: () {},
                       onChangePassword: () {},
-                      onTapGoToSignUp: () {},
                       onTapLogin: () {},
                     );
                   });

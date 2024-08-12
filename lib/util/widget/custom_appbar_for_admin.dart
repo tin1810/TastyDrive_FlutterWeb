@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
 import 'package:tasty_drive_website/responsive.dart';
@@ -14,6 +13,7 @@ class CustomAppBarAdminPanel extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
       leadingWidth: 300,
       leading: Container(
         padding: Responsive.isDesktop(context)
@@ -35,7 +35,7 @@ class CustomAppBarAdminPanel extends StatelessWidget
             if (!Responsive.isDesktop(context))
               IconButton(
                   onPressed: () {
-                    homeController.openOrCloseDrawer();
+                    // homeController.openOrCloseDrawer();
                   },
                   icon: const Icon(Icons.menu)),
             const CircleAvatar(
@@ -44,7 +44,6 @@ class CustomAppBarAdminPanel extends StatelessWidget
                 'assets/icons/Tasty.png',
               ),
             ),
-            const SizedBox(width: 4), // Adjust space between icon and text
             Flexible(
               child: Text(
                 "Tasty Drive",
@@ -61,25 +60,7 @@ class CustomAppBarAdminPanel extends StatelessWidget
       actions: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.notifications_outlined),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 50),
-          child: MaterialButton(
-            minWidth: 120,
-            height: 20,
-            color: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                "+ Add Products",
-                style: GoogleFonts.poppins(fontSize: 13, color: Colors.white),
-              ),
-            ),
-            onPressed: () {},
-          ),
+          icon: const Icon(Icons.notifications_outlined),
         ),
       ],
     );

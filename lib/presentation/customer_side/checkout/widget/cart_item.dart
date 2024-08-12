@@ -5,21 +5,19 @@ class CartItem extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
-  final String size;
-  final String color;
   final double price;
   final double originalPrice;
   final int quantity;
+  final VoidCallback onDelete; // Add this line
 
   const CartItem({
     required this.imageUrl,
     required this.title,
     required this.description,
-    required this.size,
-    required this.color,
     required this.price,
     required this.originalPrice,
     required this.quantity,
+    required this.onDelete, // Add this line
   });
 
   @override
@@ -44,7 +42,7 @@ class CartItem extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
                 Text(description),
-                Text('Size: $size / Color: $color'),
+                // Text('Size: $size / Color: $color'),
                 Row(
                   children: [
                     Text('\$$price',
@@ -59,6 +57,10 @@ class CartItem extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: onDelete, // Add this line
           ),
         ],
       ),

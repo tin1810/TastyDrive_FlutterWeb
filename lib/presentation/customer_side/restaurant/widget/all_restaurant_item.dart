@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasty_drive_website/model/restaurant_model.dart';
 
 class AllRestaurantItem extends StatelessWidget {
+  final Restaurants? restaurants;
   const AllRestaurantItem({
     super.key,
     required this.height,
+    this.restaurants,
   });
 
   final double height;
@@ -32,7 +35,7 @@ class AllRestaurantItem extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Fire Tiger Srinakrin",
+            restaurants?.name ?? "",
             style: GoogleFonts.poppins(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
@@ -40,7 +43,7 @@ class AllRestaurantItem extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Bubble Milk Tea",
+            restaurants?.description ?? "",
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
