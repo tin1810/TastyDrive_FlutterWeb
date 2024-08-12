@@ -2,10 +2,7 @@ class RestaurantModel {
   String? status;
   List<Restaurants>? restaurants;
 
-  RestaurantModel({
-    this.status,
-    this.restaurants,
-  });
+  RestaurantModel({this.status, this.restaurants});
 
   RestaurantModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -31,6 +28,8 @@ class Restaurants {
   int? id;
   String? name;
   String? location;
+  String? time;
+  String? distance;
   String? description;
   String? createdAt;
   String? updatedAt;
@@ -39,6 +38,8 @@ class Restaurants {
       {this.id,
       this.name,
       this.location,
+      this.time,
+      this.distance,
       this.description,
       this.createdAt,
       this.updatedAt});
@@ -47,6 +48,8 @@ class Restaurants {
     id = json['id'];
     name = json['name'];
     location = json['location'];
+    time = json['time'];
+    distance = json['distance'];
     description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -57,6 +60,8 @@ class Restaurants {
     data['id'] = this.id;
     data['name'] = this.name;
     data['location'] = this.location;
+    data['time'] = this.time;
+    data['distance'] = this.distance;
     data['description'] = this.description;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

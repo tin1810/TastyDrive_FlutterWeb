@@ -6,10 +6,12 @@ import 'package:tasty_drive_website/responsive.dart';
 
 class RestaurantCardWidget extends StatelessWidget {
   final String name;
+  final String time;
   const RestaurantCardWidget({
     super.key,
     required this.width,
     required this.name,
+    required this.time,
   });
 
   final double width;
@@ -93,7 +95,7 @@ class RestaurantCardWidget extends StatelessWidget {
                   ),
                   ResponsiveRowColumnItem(
                     child: Text(
-                      "30 minutes",
+                      time,
                       style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,

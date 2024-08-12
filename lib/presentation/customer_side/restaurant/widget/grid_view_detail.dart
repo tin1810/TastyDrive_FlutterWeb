@@ -9,8 +9,10 @@ import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget
 import 'package:tasty_drive_website/responsive.dart';
 
 class GridViewDetail extends StatelessWidget {
+  final int id;
   const GridViewDetail({
     super.key,
+    required this.id,
   });
 
   @override
@@ -25,6 +27,8 @@ class GridViewDetail extends StatelessWidget {
         if (dish == null) {
           return Center(child: Text('No Dish found'));
         }
+        final filteredDishes =
+            dish.dishes?.where((d) => d.restaurantId == id).toList() ?? [];
 
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -64,10 +68,9 @@ class GridViewDetail extends StatelessWidget {
                         ? 1.9
                         : 3.5,
               ),
-              itemCount: controller.dish.value?.dishes?.length,
+              itemCount: filteredDishes.length,
               itemBuilder: (context, index) {
-                final Dishes? clickedDish =
-                    controller.dish.value?.dishes?[index];
+                final Dishes clickedDish = filteredDishes[index];
                 return DetailItemCard(
                   icon: Icons.abc,
                   itemName: controller.dish.value?.dishes?[index].name ?? "",

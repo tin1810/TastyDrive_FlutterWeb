@@ -24,12 +24,12 @@ class DetailTextWidget extends StatelessWidget {
       child: Row(
         children: [
           hasIcon == true
-              ? Icon(
+              ? const Icon(
                   Icons.local_fire_department,
                   color: Colors.amber,
                 )
-              : SizedBox(),
-          SizedBox(
+              : const SizedBox(),
+          const SizedBox(
             width: 5,
           ),
           Text(

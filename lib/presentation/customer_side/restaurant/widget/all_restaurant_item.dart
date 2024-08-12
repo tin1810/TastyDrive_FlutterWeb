@@ -58,11 +58,11 @@ class AllRestaurantItem extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
-              Text("15 mins"),
+              Text(restaurants?.time ?? "10 min"),
               SizedBox(
                 width: 10,
               ),
-              Text("0.2 km")
+              Text(restaurants?.distance ?? "0.2 km")
             ],
           )
         ],

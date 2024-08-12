@@ -28,6 +28,7 @@ class RestaurantDetailScreen extends StatelessWidget {
             RestaurantCardWidget(
               width: width,
               name: restaurants?.name ?? "",
+              time: restaurants?.time ?? "",
             ),
             CustomPaint(
               size: Size(width, 1), // Set the desired size
@@ -53,12 +54,16 @@ class RestaurantDetailScreen extends StatelessWidget {
                     color: Colors.grey),
               ),
             ),
-            const GridViewDetail(),
+            GridViewDetail(
+              id: restaurants?.id ?? 0,
+            ),
             const DetailTextWidget(
               name: "Menu",
               hasIcon: false,
             ),
-            const GridViewDetail(),
+            GridViewDetail(
+              id: restaurants?.id ?? 0,
+            ),
           ],
         ),
       ),
