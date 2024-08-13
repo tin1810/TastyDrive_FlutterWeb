@@ -45,7 +45,7 @@ void showAddDishDialog() {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 10,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -66,7 +66,7 @@ void showAddDishDialog() {
               controller: dishController.nameController,
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -87,7 +87,7 @@ void showAddDishDialog() {
               controller: dishController.descriptionController,
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -108,7 +108,7 @@ void showAddDishDialog() {
               controller: dishController.priceController,
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -129,7 +129,7 @@ void showAddDishDialog() {
               controller: dishController.categoryController,
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -146,54 +146,60 @@ void showAddDishDialog() {
                 ),
               ),
             ),
-            Obx(() => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Checkbox(
-                        activeColor: Colors.green,
-                        value: dishController.isSpicy.value,
-                        onChanged: (bool? value) {
-                          dishController.toggleIsSpicy(value ?? false);
-                        },
+            Obx(
+              () => Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                      activeColor: Colors.green,
+                      value: dishController.isSpicy.value,
+                      onChanged: (bool? value) {
+                        dishController.toggleIsSpicy(value ?? false);
+                      },
+                    ),
+                    Text(
+                      "Yes",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        "Yes",
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    const SizedBox(width: 20),
+                    Checkbox(
+                      activeColor: Colors.green,
+                      value: !dishController.isSpicy.value,
+                      onChanged: (bool? value) {
+                        dishController.toggleIsSpicy(!(value ?? true));
+                      },
+                    ),
+                    Text(
+                      "No",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(width: 20),
-                      Checkbox(
-                        activeColor: Colors.green,
-                        value: !dishController.isSpicy.value,
-                        onChanged: (bool? value) {
-                          dishController.toggleIsSpicy(!(value ?? true));
-                        },
-                      ),
-                      Text(
-                        "No",
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: MaterialButton(
                 height: 50,
                 minWidth: double.infinity,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                onPressed: () {},
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  dishController.createDish();
+                  Get.back();
+                },
                 color: Colors.green,
                 child: Text(
                   "Confirm",
@@ -206,7 +212,7 @@ void showAddDishDialog() {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 10,
             ),
           ],
         ),

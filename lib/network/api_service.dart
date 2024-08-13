@@ -59,6 +59,32 @@ class ItemService {
     }
   }
 
+  Future<DishModel> createDish(
+    int resId,
+    String name,
+    String price,
+    String description,
+    String category,
+    int isSpicy,
+  ) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/createDish'),
+      body: {
+        "name": name,
+        "restaurantId": resId,
+        "price": price,
+        "description": description,
+        "category": category,
+        "isSpicy": isSpicy,
+      },
+    );
+    if (response.statusCode == 200) {
+      return DishModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to create item');
+    }
+  }
+
   Future<DishModel> createAddToCart(
       {required String resId,
       required int userId,
