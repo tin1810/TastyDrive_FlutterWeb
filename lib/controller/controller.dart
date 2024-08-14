@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tasty_drive_website/model/add_to_cart_list_model.dart';
-import 'package:tasty_drive_website/model/add_to_cart_response_model.dart';
 import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/model/restaurant_model.dart';
 import 'package:tasty_drive_website/model/restaurant_response_model.dart';
@@ -11,22 +9,19 @@ import 'package:tasty_drive_website/presentation/admin_side/widget/success_dialo
 class RestaurantController extends GetxController {
   final ItemService _itemService = ItemService();
   var restaurant = Rx<RestaurantModel?>(null);
-  var restaurants = Rx<RestaurantResponseModel?>(null);
-  var dish = Rx<DishModel?>(null);
-  var addToCart = Rx<AddToCartListModel?>(null);
+  // var restaurants = Rx<RestaurantResponseModel?>(null);
 
   var isLoading = true.obs;
 
   final nameController = TextEditingController();
   final locationController = TextEditingController();
   final descriptionController = TextEditingController();
-
+  final timeController = TextEditingController();
+  final distanceController = TextEditingController();
   @override
   void onInit() {
     super.onInit();
     fetchItems();
-    fetchDishes();
-    fetchAddToCart();
   }
 
   @override
@@ -34,6 +29,8 @@ class RestaurantController extends GetxController {
     nameController.dispose();
     locationController.dispose();
     descriptionController.dispose();
+    timeController.dispose();
+    distanceController.dispose();
     super.onClose();
   }
 
@@ -48,23 +45,28 @@ class RestaurantController extends GetxController {
     }
   }
 
-  void fetchDishes() async {
+  void updateRestaurant({
+    required int id,
+  }) async {
     try {
       isLoading.value = true;
-      dish.value = await _itemService.getDishes();
+      RestaurantResponseModel response = await _itemService.updateRestaraunt(
+        id,
+        nameController.text,
+        locationController.text,
+        descriptionController.text,
+        timeController.text,
+        distanceController.text,
+      );
+      if (response.status == 'success') {
+        Get.snackbar('Success', 'Successfully Added');
+        fetchItems();
+        // controller.fetchDishes();
+      } else {
+        Get.snackbar('Error', 'Failed to Update Restaurant');
+      }
     } catch (e) {
-      print(e);
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  void fetchAddToCart() async {
-    try {
-      isLoading.value = true;
-      addToCart.value = await _itemService.getAddToCart();
-    } catch (e) {
-      print(e);
+      Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
     }
@@ -76,8 +78,9 @@ class RestaurantController extends GetxController {
       RestaurantResponseModel response = await _itemService.createItem(
           nameController.text,
           locationController.text,
-          descriptionController.text);
-
+          descriptionController.text,
+          timeController.text,
+          distanceController.text);
       if (response.status == 'success') {
         showSuccessDialog();
         // Get.snackbar('Success', 'Restaurant created successfully');
@@ -92,59 +95,13 @@ class RestaurantController extends GetxController {
     }
   }
 
-// {
-//     "restaurant_id": 1,
-//     "user_id": 1,
-//     "restaurant_name": "Buger King",
-//     "name": "Cheese Sandwich",
-//     "description": "This is Sandwich",
-//     "price": 8,
-//     "is_spicy": 0,
-//     "category": "Sandwich"
-// }
-  void creatAddToCart({
-    required String name,
-    required String description,
-    required String resName,
-    required String resId,
-    required int userId,
-    required String category,
-    required double price,
-    required int isSpicy,
-  }) async {
+  void deleteRestaurant(int id) async {
     try {
-      isLoading.value = true;
-      DishModel response = await _itemService.createAddToCart(
-          resId: resId,
-          userId: userId,
-          name: name,
-          description: description,
-          shop: resName,
-          price: price,
-          isspicy: isSpicy,
-          category: category);
+      await _itemService.deleteRestaurant(id); // Use the deleteItem method
 
-      if (response.status == 'success') {
-        showSuccessDialog();
-        // Get.snackbar('Success', 'Restaurant created successfully');
-      } else {
-        Get.snackbar('Error', 'Failed to create restaurant');
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  void deleteFromCart(int id) async {
-    try {
-      await _itemService.deleteItem(id); // Use the deleteItem method
-
-      // If the deletion was successful, remove the item from the local list
-      addToCart.value?.addToCart?.removeWhere((item) => item.id == id);
-      addToCart.refresh(); // Refresh the list to update the UI
-      Get.snackbar('Success', 'Item removed from cart');
+      restaurant.value?.restaurants?.removeWhere((item) => item.id == id);
+      restaurant.refresh(); // Refresh the list to update the UI
+      Get.snackbar('Success', 'Successfully Deleted Restaurant');
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

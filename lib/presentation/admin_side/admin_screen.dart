@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
+import 'package:tasty_drive_website/presentation/admin_side/order_screen.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/dash_board_menu.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/delivery_widget.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/dishes_widget.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/restaurant_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/widget/side_menu.dart';
+import 'package:tasty_drive_website/presentation/customer_side/item_list.dart';
 import 'package:tasty_drive_website/responsive.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar_for_admin.dart';
 
@@ -23,6 +25,8 @@ class AdminDashBoardScreen extends StatelessWidget {
       drawer: SideMenu(),
       appBar: CustomAppBarAdminPanel(),
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (Responsive.isDesktop(context))
             DashBoardMenuWidget(width: width, height: height),
@@ -37,7 +41,9 @@ class AdminDashBoardScreen extends StatelessWidget {
                         ? const DeliveryWidget()
                         : homeController.selected.value == 1
                             ? const RestaurantWidget()
-                            : const DishesWidget()
+                            : homeController.selected.value == 2
+                                ? const OrderScreen()
+                                : const DishesWidget()
                   ],
                 ),
               ),

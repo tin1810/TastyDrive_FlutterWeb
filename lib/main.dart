@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => AdminDashBoardScreen()),
       ],
-      // home: RestaurantScreen(),
+      // home: AdminDashBoardScreen(),
     );
   }
 }

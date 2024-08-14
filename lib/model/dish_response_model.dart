@@ -1,52 +1,54 @@
-class RestaurantResponseModel {
+class DishResponseModel {
   String? status;
-  Restaurants? restaurants;
+  Dishes? dishes;
 
-  RestaurantResponseModel({this.status, this.restaurants});
+  DishResponseModel({this.status, this.dishes});
 
-  RestaurantResponseModel.fromJson(Map<String, dynamic> json) {
+  DishResponseModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    restaurants = json['restaurants'] != null
-        ? new Restaurants.fromJson(json['restaurants'])
-        : null;
+    dishes =
+        json['dishes'] != null ? new Dishes.fromJson(json['dishes']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.restaurants != null) {
-      data['restaurants'] = this.restaurants!.toJson();
+    if (this.dishes != null) {
+      data['dishes'] = this.dishes!.toJson();
     }
     return data;
   }
 }
 
-class Restaurants {
+class Dishes {
+  int? restaurantId;
   String? name;
-  String? location;
   String? description;
-  String? time;
-  String? distance;
+  String? price;
+  int? isSpicy;
+  String? category;
   String? updatedAt;
   String? createdAt;
   int? id;
 
-  Restaurants(
-      {this.name,
-      this.location,
+  Dishes(
+      {this.restaurantId,
+      this.name,
       this.description,
-      this.time,
-      this.distance,
+      this.price,
+      this.isSpicy,
+      this.category,
       this.updatedAt,
       this.createdAt,
       this.id});
 
-  Restaurants.fromJson(Map<String, dynamic> json) {
+  Dishes.fromJson(Map<String, dynamic> json) {
+    restaurantId = json['restaurant_id'];
     name = json['name'];
-    location = json['location'];
     description = json['description'];
-    time = json['time'];
-    distance = json['distance'];
+    price = json['price'];
+    isSpicy = json['is_spicy'];
+    category = json['category'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
@@ -54,11 +56,12 @@ class Restaurants {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['restaurant_id'] = this.restaurantId;
     data['name'] = this.name;
-    data['location'] = this.location;
     data['description'] = this.description;
-    data['time'] = this.time;
-    data['distance'] = this.distance;
+    data['price'] = this.price;
+    data['is_spicy'] = this.isSpicy;
+    data['category'] = this.category;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;

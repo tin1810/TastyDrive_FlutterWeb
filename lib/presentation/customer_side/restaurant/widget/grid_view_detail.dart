@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:tasty_drive_website/controller/checkout_controller.dart';
 import 'package:tasty_drive_website/controller/controller.dart';
+import 'package:tasty_drive_website/controller/dish_controller.dart';
 import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/add_to_cart_dialog.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/detail_card.dart';
@@ -17,13 +19,14 @@ class GridViewDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RestaurantController controller = Get.put(RestaurantController());
+    final CheckoutController controller = Get.put(CheckoutController());
+    final DishController dishController = Get.put(DishController());
 
     return Obx(() {
       if (controller.isLoading.value) {
         return Center(child: CircularProgressIndicator());
       } else {
-        final dish = controller.dish.value;
+        final dish = dishController.dish.value;
         if (dish == null) {
           return Center(child: Text('No Dish found'));
         }
@@ -73,34 +76,38 @@ class GridViewDetail extends StatelessWidget {
                 final Dishes clickedDish = filteredDishes[index];
                 return DetailItemCard(
                   icon: Icons.abc,
-                  itemName: controller.dish.value?.dishes?[index].name ?? "",
-                  price: controller.dish.value?.dishes?[index].price ?? 0.0,
+                  itemName:
+                      dishController.dish.value?.dishes?[index].name ?? "",
+                  price: dishController.dish.value?.dishes?[index].price ?? 0.0,
                   ingredint:
-                      controller.dish.value?.dishes?[index].description ?? "",
+                      dishController.dish.value?.dishes?[index].description ??
+                          "",
                   onClick: () {
                     if (clickedDish != null) {
                       print('Clicked dish: ${clickedDish.name}');
                       addToCartDialog(onClicked: () {
                         controller.creatAddToCart(
                           name:
-                              controller.dish.value?.dishes?[index].name ?? "",
-                          description: controller
+                              dishController.dish.value?.dishes?[index].name ??
+                                  "",
+                          description: dishController
                                   .dish.value?.dishes?[index].description ??
                               "",
                           resName: "Burger King",
-                          resId: controller
+                          resId: dishController
                                   .dish.value?.dishes?[index].restaurantId
                                   .toString() ??
                               "",
                           userId: 1,
-                          category:
-                              controller.dish.value?.dishes?[index].category ??
-                                  "",
-                          price:
-                              controller.dish.value?.dishes?[index].price! ?? 0,
-                          isSpicy:
-                              controller.dish.value?.dishes?[index].isSpicy ??
-                                  0,
+                          category: dishController
+                                  .dish.value?.dishes?[index].category ??
+                              "",
+                          price: dishController
+                                  .dish.value?.dishes?[index].price! ??
+                              0,
+                          isSpicy: dishController
+                                  .dish.value?.dishes?[index].isSpicy ??
+                              0,
                         );
                         controller.fetchAddToCart();
                         Get.back();

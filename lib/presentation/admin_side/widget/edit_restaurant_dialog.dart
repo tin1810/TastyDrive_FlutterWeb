@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/controller/dish_controller.dart';
+import 'package:tasty_drive_website/model/restaurant_model.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/custom_textfield.dart';
 
-void showAddDishDialog(int id) {
-  final DishController dishController = Get.put(DishController());
+import '../../../controller/controller.dart';
+
+void editRestaurantDialog(Restaurants restaurants) {
+  final RestaurantController restaurantController =
+      Get.put(RestaurantController());
+
+  restaurantController.nameController.text = restaurants.name ?? "";
+  restaurantController.descriptionController.text =
+      restaurants.description ?? "";
+  restaurantController.locationController.text = restaurants.location ?? "";
+
+  restaurantController.distanceController.text = restaurants.distance ?? "";
+  restaurantController.timeController.text = restaurants.time ?? "";
 
   Get.dialog(
     AlertDialog(
@@ -37,7 +48,7 @@ void showAddDishDialog(int id) {
               ),
             ),
             Text(
-              "Add New Dishes Form",
+              "Add New Restaurant Form",
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 color: Colors.black,
@@ -45,7 +56,7 @@ void showAddDishDialog(int id) {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 16,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -53,7 +64,7 @@ void showAddDishDialog(int id) {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Dish Name",
+                  "Restaurant Name",
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     color: Colors.black,
@@ -63,18 +74,18 @@ void showAddDishDialog(int id) {
               ),
             ),
             CustomTextField(
-              controller: dishController.nameController,
+              controller: restaurantController.nameController,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Dish Description",
+                  "Restaurant Description",
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     color: Colors.black,
@@ -84,18 +95,18 @@ void showAddDishDialog(int id) {
               ),
             ),
             CustomTextField(
-              controller: dishController.descriptionController,
+              controller: restaurantController.descriptionController,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Price",
+                  "Address",
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     color: Colors.black,
@@ -105,18 +116,18 @@ void showAddDishDialog(int id) {
               ),
             ),
             CustomTextField(
-              controller: dishController.priceController,
+              controller: restaurantController.locationController,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            // SizedBox(
+            //   height: 15,
+            // ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Category",
+                  "Time",
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     color: Colors.black,
@@ -126,10 +137,7 @@ void showAddDishDialog(int id) {
               ),
             ),
             CustomTextField(
-              controller: dishController.categoryController,
-            ),
-            SizedBox(
-              height: 10,
+              controller: restaurantController.timeController,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -137,7 +145,7 @@ void showAddDishDialog(int id) {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Is Spicy?",
+                  "Distance",
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     color: Colors.black,
@@ -146,58 +154,19 @@ void showAddDishDialog(int id) {
                 ),
               ),
             ),
-            Obx(
-              () => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Checkbox(
-                      activeColor: Colors.green,
-                      value: dishController.isSpicy.value,
-                      onChanged: (bool? value) {
-                        dishController.toggleIsSpicy(value ?? false);
-                      },
-                    ),
-                    Text(
-                      "Yes",
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Checkbox(
-                      activeColor: Colors.green,
-                      value: !dishController.isSpicy.value,
-                      onChanged: (bool? value) {
-                        dishController.toggleIsSpicy(!(value ?? true));
-                      },
-                    ),
-                    Text(
-                      "No",
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            CustomTextField(
+              controller: restaurantController.distanceController,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
               child: MaterialButton(
                 height: 50,
                 minWidth: double.infinity,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 onPressed: () {
-                  dishController.createDish(id);
+                  restaurantController.updateRestaurant(
+                      id: restaurants.id ?? 0);
                   Get.back();
                 },
                 color: Colors.green,
@@ -212,7 +181,7 @@ void showAddDishDialog(int id) {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 30,
             ),
           ],
         ),

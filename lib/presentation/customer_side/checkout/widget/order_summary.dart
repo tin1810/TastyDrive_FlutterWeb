@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasty_drive_website/controller/checkout_controller.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
 class OrderSummary extends StatelessWidget {
@@ -8,13 +10,14 @@ class OrderSummary extends StatelessWidget {
   final double tax;
   final String shipping;
   final double total;
-
+  final Function onCheckout;
   const OrderSummary({
     required this.subtotal,
     required this.discount,
     required this.tax,
     required this.shipping,
     required this.total,
+    required this.onCheckout,
   });
 
   @override
@@ -80,7 +83,7 @@ class OrderSummary extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle checkout process
+                  onCheckout();
                 },
                 child: const Text('Proceed to Checkout'),
               ),

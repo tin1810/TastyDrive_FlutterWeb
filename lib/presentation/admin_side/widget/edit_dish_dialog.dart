@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasty_drive_website/controller/dish_controller.dart';
+import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/custom_textfield.dart';
 
-void showAddDishDialog(int id) {
+void editDishDialog(Dishes dish) {
   final DishController dishController = Get.put(DishController());
+  dishController.nameController.text = dish.name ?? "";
+  dishController.descriptionController.text = dish.description ?? "";
+  dishController.priceController.text = dish.price.toString();
+  dishController.categoryController.text = dish.category ?? "";
 
   Get.dialog(
     AlertDialog(
@@ -197,7 +202,8 @@ void showAddDishDialog(int id) {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 onPressed: () {
-                  dishController.createDish(id);
+                  dishController.updateDish(
+                      resId: dish.restaurantId ?? 0, id: dish.id ?? 0);
                   Get.back();
                 },
                 color: Colors.green,

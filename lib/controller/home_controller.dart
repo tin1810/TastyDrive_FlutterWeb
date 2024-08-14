@@ -54,6 +54,7 @@ class HomeController extends GetxController {
   List<AdminModel> get adminList => [
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Delivery"),
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Restaurant"),
+        AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Order"),
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Dishes"),
       ];
   List<DeliveryCardModel> get deliveryCardList => [

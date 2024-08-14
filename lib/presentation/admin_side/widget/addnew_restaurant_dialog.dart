@@ -49,7 +49,7 @@ void addAddRestaurantDialog() {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 16,
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -69,9 +69,9 @@ void addAddRestaurantDialog() {
             CustomTextField(
               controller: restaurantController.nameController,
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
@@ -90,9 +90,9 @@ void addAddRestaurantDialog() {
             CustomTextField(
               controller: restaurantController.descriptionController,
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
@@ -111,8 +111,44 @@ void addAddRestaurantDialog() {
             CustomTextField(
               controller: restaurantController.locationController,
             ),
-            SizedBox(
-              height: 15,
+            // SizedBox(
+            //   height: 15,
+            // ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(
+                  "Time",
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            CustomTextField(
+              controller: restaurantController.timeController,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(
+                  "Distance",
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            CustomTextField(
+              controller: restaurantController.distanceController,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -122,9 +158,6 @@ void addAddRestaurantDialog() {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () {
-                  restaurantController.nameController.text;
-                  restaurantController.locationController.text;
-                  restaurantController.descriptionController.text;
                   restaurantController.createRestaurant();
                   Get.back();
                 },

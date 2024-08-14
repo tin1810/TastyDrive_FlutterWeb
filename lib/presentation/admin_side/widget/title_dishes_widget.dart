@@ -6,10 +6,12 @@ import 'package:tasty_drive_website/presentation/admin_side/widget/addnew_restau
 class TitleWIdgetForDishes extends StatelessWidget {
   final String name;
   final String buttonName;
+  final int? id;
   const TitleWIdgetForDishes({
     super.key,
     required this.name,
     required this.buttonName,
+    this.id,
   });
 
   @override
@@ -41,7 +43,7 @@ class TitleWIdgetForDishes extends StatelessWidget {
             ),
             onPressed: () {
               name == "Manage Dishes"
-                  ? showAddDishDialog()
+                  ? showAddDishDialog(id ?? 0)
                   : addAddRestaurantDialog();
             },
           ),
