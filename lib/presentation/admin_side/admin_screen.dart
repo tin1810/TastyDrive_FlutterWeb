@@ -56,8 +56,10 @@ class AdminDashBoardScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     homeController.selected.value == 0
-                        ? const OrderScreen()
-                        : const DishesWidget()
+                        ? const DeliveryWidget()
+                        : homeController.selected.value == 1
+                            ? const OrderScreen()
+                            : const DishesWidget()
                   ],
                 ),
               ),

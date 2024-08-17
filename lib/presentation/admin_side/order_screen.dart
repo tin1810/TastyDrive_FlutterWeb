@@ -107,15 +107,15 @@ class OrderScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // MaterialButton(
-                              //   height: 45,
-                              //   minWidth: 100,
-                              //   color: Colors.cyan,
-                              //   shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(20)),
-                              //   onPressed: () {},
-                              //   child: Text("Assign Deli"),
-                              // ),
+                              MaterialButton(
+                                height: 45,
+                                minWidth: 100,
+                                color: Colors.cyan,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                onPressed: () {},
+                                child: Text("Assign Deli"),
+                              ),
                               MaterialButton(
                                 height: 45,
                                 minWidth: 100,
