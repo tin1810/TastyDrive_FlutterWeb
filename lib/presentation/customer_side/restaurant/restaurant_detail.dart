@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasty_drive_website/model/restaurant_model.dart';
+import 'package:tasty_drive_website/model/user_model.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/widget/line_painter.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/detail_text_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/grid_view_detail.dart';
@@ -10,7 +11,7 @@ import 'package:tasty_drive_website/responsive.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
-  final Restaurants? restaurants;
+  final Users? restaurants;
   const RestaurantDetailScreen({super.key, this.restaurants});
 
   @override

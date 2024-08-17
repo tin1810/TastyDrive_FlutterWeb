@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/config/dependency.dart';
 import 'package:tasty_drive_website/presentation/admin_side/admin_screen.dart';
@@ -8,6 +10,9 @@ import 'package:tasty_drive_website/presentation/customer_side/home/home_page.da
 
 void main() async {
   Dependency.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('userBox');
   runApp(const MyApp());
 }
 
@@ -34,11 +39,11 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page: () => AdminDashBoardScreen()),
-      ],
-      // home: AdminDashBoardScreen(),
+      // initialRoute: '/',
+      // getPages: [
+      //   GetPage(name: '/', page: () => HomePage()),
+      // ],
+      home: HomePage(),
     );
   }
 }

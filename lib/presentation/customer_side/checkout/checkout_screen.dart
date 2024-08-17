@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:tasty_drive_website/controller/checkout_controller.dart';
-import 'package:tasty_drive_website/controller/controller.dart';
 import 'package:tasty_drive_website/presentation/customer_side/checkout/widget/cart_item.dart';
 import 'package:tasty_drive_website/presentation/customer_side/checkout/widget/order_summary.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/widget/footer_section.dart';
@@ -111,10 +111,11 @@ class CheckoutScreen extends StatelessWidget {
                             [];
                         final resId =
                             controller.selectRestaurantId(restaurantIds);
-
+                        var box = Hive.box('userBox');
+                        var userId = box.get('userId');
                         controller.checkoutOrder(
                             resId: resId,
-                            userId: 1,
+                            userId: userId,
                             totalAmount: subtotal,
                             orderList: orderList,
                             id: id);

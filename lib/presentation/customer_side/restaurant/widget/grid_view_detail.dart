@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/controller/checkout_controller.dart';
 import 'package:tasty_drive_website/controller/controller.dart';
 import 'package:tasty_drive_website/controller/dish_controller.dart';
@@ -21,6 +24,7 @@ class GridViewDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final CheckoutController controller = Get.put(CheckoutController());
     final DishController dishController = Get.put(DishController());
+    final AuthController authController = Get.put(AuthController());
 
     return Obx(() {
       if (controller.isLoading.value) {
@@ -31,7 +35,7 @@ class GridViewDetail extends StatelessWidget {
           return Center(child: Text('No Dish found'));
         }
         final filteredDishes =
-            dish.dishes?.where((d) => d.restaurantId == id).toList() ?? [];
+            dish.dishes?.where((d) => d.userId == id).toList() ?? [];
 
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -73,45 +77,50 @@ class GridViewDetail extends StatelessWidget {
               ),
               itemCount: filteredDishes.length,
               itemBuilder: (context, index) {
-                final Dishes clickedDish = filteredDishes[index];
+                final Dishes? clickedDish = filteredDishes[index];
                 return DetailItemCard(
+                  // photo: clickedDish?. ?? "",
                   icon: Icons.abc,
-                  itemName:
-                      dishController.dish.value?.dishes?[index].name ?? "",
-                  price: dishController.dish.value?.dishes?[index].price ?? 0.0,
-                  ingredint:
-                      dishController.dish.value?.dishes?[index].description ??
-                          "",
+                  itemName: clickedDish?.name ?? "",
+                  price: clickedDish?.price?.toInt() ?? 0,
+                  ingredint: clickedDish?.description ?? "",
                   onClick: () {
                     if (clickedDish != null) {
                       print('Clicked dish: ${clickedDish.name}');
-                      addToCartDialog(onClicked: () {
-                        controller.creatAddToCart(
-                          name:
-                              dishController.dish.value?.dishes?[index].name ??
-                                  "",
-                          description: dishController
-                                  .dish.value?.dishes?[index].description ??
-                              "",
-                          resName: "Burger King",
-                          resId: dishController
-                                  .dish.value?.dishes?[index].restaurantId
-                                  .toString() ??
-                              "",
-                          userId: 1,
-                          category: dishController
-                                  .dish.value?.dishes?[index].category ??
-                              "",
-                          price: dishController
-                                  .dish.value?.dishes?[index].price! ??
-                              0,
-                          isSpicy: dishController
-                                  .dish.value?.dishes?[index].isSpicy ??
-                              0,
-                        );
-                        controller.fetchAddToCart();
-                        Get.back();
-                      });
+
+                      authController.isAlreadyLogin == true
+                          ? addToCartDialog(onClicked: () {
+                              var box = Hive.box('userBox');
+                              var userId = box.get('userId');
+                              controller.creatAddToCart(
+                                name: filteredDishes[index].name ?? "",
+                                description:
+                                    filteredDishes[index].description ?? "",
+                                resName: "Burger King",
+                                userId: userId,
+                                category: filteredDishes[index].category ?? "",
+                                price:
+                                    filteredDishes[index].price?.toInt() ?? 0,
+                                isSpicy: filteredDishes[index].isSpicy ?? 0,
+                              );
+                              Get.back();
+                            })
+                          : Get.dialog(AlertDialog(
+                              title: Text(
+                                "Need to Login First",
+                                style: GoogleFonts.poppins(fontSize: 16),
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Close",
+                                      style: GoogleFonts.poppins(fontSize: 13),
+                                    ))
+                              ],
+                            ));
                     }
                   },
                 );

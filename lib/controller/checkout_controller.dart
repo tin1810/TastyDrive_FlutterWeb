@@ -6,6 +6,7 @@ import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/network/api_service.dart';
 import 'package:logger/web.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/success_dialog.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
 
 class CheckoutController extends GetxController {
   final ItemService _itemService = ItemService();
@@ -13,6 +14,7 @@ class CheckoutController extends GetxController {
       Get.find<RestaurantController>();
   var checkout = Rx<CheckoutOrderModel?>(null);
   var addToCart = Rx<AddToCartListModel?>(null);
+
   @override
   void onInit() {
     super.onInit();
@@ -91,10 +93,9 @@ class CheckoutController extends GetxController {
 
       if (response.status == 'success') {
         _logger.i(response);
+        deleteFromCartAll();
+        Get.offAll(() => HomePage());
         showSuccessDialog();
-        Get.back();
-        Get.back();
-        deleteFromCartAll(id);
       } else {
         Get.snackbar('Error', 'Failed to create restaurant');
       }
@@ -109,26 +110,25 @@ class CheckoutController extends GetxController {
     required String name,
     required String description,
     required String resName,
-    required String resId,
     required int userId,
     required String category,
-    required double price,
+    required int price,
     required int isSpicy,
   }) async {
     try {
       isLoading.value = true;
       DishModel response = await _itemService.createAddToCart(
-          resId: resId,
           userId: userId,
           name: name,
+          resName: resName,
           description: description,
-          shop: resName,
           price: price,
           isspicy: isSpicy,
           category: category);
 
       if (response.status == 'success') {
         showSuccessDialog();
+        fetchAddToCart();
         // Get.snackbar('Success', 'Restaurant created successfully');
       } else {
         Get.snackbar('Error', 'Failed to create restaurant');
@@ -147,7 +147,8 @@ class CheckoutController extends GetxController {
       // If the deletion was successful, remove the item from the local list
       addToCart.value?.addToCart?.removeWhere((item) => item.id == id);
       addToCart.refresh(); // Refresh the list to update the UI
-      Get.snackbar('Success', 'Item removed from cart');
+      Get.snackbar('Success', 'Item removed from cart',
+          duration: Duration(seconds: 2));
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
@@ -155,14 +156,19 @@ class CheckoutController extends GetxController {
     }
   }
 
-  void deleteFromCartAll(int id) async {
+  void deleteFromCartAll() async {
     try {
-      await _itemService.deleteItem(id); // Use the deleteItem method
+      isLoading.value = true;
 
-      // If the deletion was successful, remove the item from the local list
-      addToCart.value?.addToCart?.removeWhere((item) => item.id == id);
+      // Iterate over all items in the cart and delete them one by one
+      for (var item in addToCart.value?.addToCart ?? []) {
+        await _itemService.deleteItem(item.id);
+      }
+
+      // Clear the local list after all deletions
+      addToCart.value?.addToCart?.clear();
       addToCart.refresh(); // Refresh the list to update the UI
-      // Get.snackbar('Success', 'Item removed from cart');
+      Get.snackbar('Success', 'All items removed from cart');
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

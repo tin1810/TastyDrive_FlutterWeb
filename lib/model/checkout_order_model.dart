@@ -79,6 +79,7 @@ class OrderItems {
   String? description;
   String? restaurantName;
   double? price;
+  String? status;
   int? isSpicy;
   String? category;
   String? createdAt;
@@ -90,6 +91,7 @@ class OrderItems {
       this.name,
       this.description,
       this.restaurantName,
+      this.status,
       this.price,
       this.isSpicy,
       this.category,
@@ -102,6 +104,7 @@ class OrderItems {
     name = json['name'];
     description = json['description'];
     restaurantName = json['restaurant_name'];
+    status = json["order_status"];
     price = json['price'];
     isSpicy = json['is_spicy'];
     category = json['category'];
@@ -116,6 +119,7 @@ class OrderItems {
     data['name'] = this.name;
     data['description'] = this.description;
     data['restaurant_name'] = this.restaurantName;
+    data['order_status'] = this.status;
     data['price'] = this.price;
     data['is_spicy'] = this.isSpicy;
     data['category'] = this.category;

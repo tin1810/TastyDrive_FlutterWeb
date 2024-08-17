@@ -203,7 +203,7 @@ void editDishDialog(Dishes dish) {
                 ),
                 onPressed: () {
                   dishController.updateDish(
-                      resId: dish.restaurantId ?? 0, id: dish.id ?? 0);
+                      resId: dish.userId ?? 0, id: dish.id ?? 0);
                   Get.back();
                 },
                 color: Colors.green,

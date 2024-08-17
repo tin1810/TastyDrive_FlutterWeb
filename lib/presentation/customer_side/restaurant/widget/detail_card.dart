@@ -6,9 +6,10 @@ import 'package:tasty_drive_website/responsive.dart';
 class DetailItemCard extends StatefulWidget {
   final IconData icon;
   final String itemName;
-  final double price;
+  final int price;
   final String ingredint;
   final Function onClick;
+
   const DetailItemCard({
     Key? key,
     required this.icon,
@@ -129,8 +130,8 @@ class _DetailItemCardState extends State<DetailItemCard>
                     child: Stack(
                       children: [
                         Image.asset(
-                          "assets/restaurants/daddy_bubble_tea_tiger_sugar.jpg",
-                          fit: BoxFit.cover,
+                          'assets/restaurants/tiger_suger.jpg',
+                          fit: BoxFit.contain,
                           width: Responsive.isTablet(context)
                               ? width * 0.13
                               : Responsive.isMobile(context)

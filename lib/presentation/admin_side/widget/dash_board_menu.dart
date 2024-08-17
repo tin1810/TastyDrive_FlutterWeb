@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
 
 class DashBoardMenuWidget extends StatelessWidget {
@@ -15,6 +17,7 @@ class DashBoardMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find<AuthController>();
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
@@ -25,7 +28,11 @@ class DashBoardMenuWidget extends StatelessWidget {
         height: double.infinity,
         child: GetBuilder<HomeController>(builder: (homeController) {
           return ListView.builder(
-              itemCount: homeController.adminList.length,
+              itemCount: authController
+                          .loginresponse.value?.tastyDriveUsers?.isAdmin ==
+                      1
+                  ? homeController.adminList.length
+                  : homeController.restaurantAdminList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 bool isSelected = homeController.selected.value == index;
@@ -45,15 +52,26 @@ class DashBoardMenuWidget extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SvgPicture.asset(
-                            homeController.adminList[index].icon ?? "",
+                            authController.loginresponse.value?.tastyDriveUsers
+                                        ?.isAdmin ==
+                                    1
+                                ? homeController.adminList[index].icon ?? ""
+                                : homeController
+                                        .restaurantAdminList[index].icon ??
+                                    "",
                             height: 20,
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           Expanded(
-                              child: Text(
-                                  homeController.adminList[index].title ?? "")),
+                              child: Text(authController.loginresponse.value
+                                          ?.tastyDriveUsers?.isAdmin ==
+                                      1
+                                  ? homeController.adminList[index].title ?? ""
+                                  : homeController
+                                          .restaurantAdminList[index].title ??
+                                      "")),
                           const Icon(
                             Icons.arrow_forward_ios,
                             size: 20,

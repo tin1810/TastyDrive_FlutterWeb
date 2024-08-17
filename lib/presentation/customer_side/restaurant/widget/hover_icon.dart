@@ -26,7 +26,7 @@ class _HoverableIconButtonState extends State<HoverableIconButton> {
               : Colors.grey, // Change color when hovering
           icon: SvgPicture.asset("assets/icons/cart.svg"),
           onPressed: () {
-            Get.to(() => CheckoutScreen());
+            Get.to(() => const CheckoutScreen());
           },
         ),
         decoration: BoxDecoration(

@@ -1,15 +1,121 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:logger/web.dart';
 import 'package:tasty_drive_website/model/add_to_cart_list_model.dart';
-import 'package:tasty_drive_website/model/add_to_cart_response_model.dart';
 import 'package:tasty_drive_website/model/checkout_order_model.dart';
 import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/model/dish_response_model.dart';
+import 'package:tasty_drive_website/model/login_response_model.dart';
+import 'package:tasty_drive_website/model/register_response_model.dart';
 import 'package:tasty_drive_website/model/restaurant_model.dart';
 import 'package:tasty_drive_website/model/restaurant_response_model.dart';
+import 'package:tasty_drive_website/model/user_model.dart';
 
 class ItemService {
   final String baseUrl = "http://localhost:8000/api";
+  final _logger = Logger();
+  Future<LoginResponseModel> login(
+      {required String email, required String password}) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/login'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email, "password": password}),
+    );
+    if (response.statusCode == 200) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to Login');
+    }
+  }
+
+  Future<RegisterResponseModel> registerForRes({
+    required String name,
+    required String userName,
+    required String email,
+    required String password,
+    required String address,
+    required int isCustomer,
+    required int isResAdmin,
+    required int isAdmin,
+    required String resName,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/register'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(
+        {
+          "name": name,
+          "user_name": userName,
+          "email": email,
+          "password": password,
+          "phone": "",
+          "address": address,
+          "is_customer": isCustomer,
+          "is_admin": isAdmin,
+          "is_restaurant_admin": isResAdmin,
+          "restaurant_name": resName
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to Register');
+    }
+  }
+
+  Future<RegisterResponseModel> register({
+    required String name,
+    required String userName,
+    required String email,
+    required String password,
+    required String phNo,
+    required String address,
+    required int isCustomer,
+    required int isResAdmin,
+    required int isAdmin,
+    required String location,
+    required dynamic time,
+    required String distance,
+    required dynamic description,
+    required String resName,
+  }) async {
+    final response = await http.post(Uri.parse('$baseUrl/register'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "name": name,
+          "user_name": userName,
+          "email": email,
+          "password": password,
+          "phone": phNo,
+          "location": location,
+          "address": address,
+          "time": time,
+          "distance": distance,
+          "description": description,
+          "is_customer": isCustomer,
+          "is_admin": isAdmin,
+          "is_restaurant_admin": isResAdmin,
+          "restaurant_name": resName,
+        }));
+    if (response.statusCode == 200) {
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to Register');
+    }
+  }
+
+  Future<UserModel> getUsers() async {
+    final response = await http.get(Uri.parse('$baseUrl/getusers'));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      return UserModel.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to load items');
+    }
+  }
 
   Future<RestaurantModel> getItems() async {
     final response = await http.get(Uri.parse('$baseUrl/getRestaurants'));
@@ -60,8 +166,14 @@ class ItemService {
     }
   }
 
-  Future<RestaurantResponseModel> createItem(String name, String location,
-      String description, String time, String distance) async {
+  Future<RestaurantResponseModel> createItem(
+      {required String name,
+      required String location,
+      required String description,
+      required String time,
+      required String distance,
+      required String email,
+      required String password}) async {
     final response = await http.post(
       Uri.parse('$baseUrl/createRestaurants'),
       body: {
@@ -69,7 +181,9 @@ class ItemService {
         "location": location,
         "description": description,
         "time": time,
-        "distance": distance
+        "distance": distance,
+        "email": email,
+        "password": password
       },
     );
     if (response.statusCode == 200) {
@@ -79,18 +193,41 @@ class ItemService {
     }
   }
 
-  Future<RestaurantResponseModel> updateRestaraunt(int id, String name,
-      String location, String description, String time, String distance) async {
+  Future<RestaurantResponseModel> updateRestaraunt(
+      {required int id,
+      required String name,
+      required String userName,
+      required String email,
+      required String password,
+      required String phNo,
+      required String address,
+      required int isCustomer,
+      required int isResAdmin,
+      required int isAdmin,
+      required String location,
+      required dynamic time,
+      required String distance,
+      required dynamic description,
+      required String resName}) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/updateRestaurant/$id'),
+      Uri.parse('$baseUrl/updateUser/$id'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(
         {
           "name": name,
+          "user_name": userName,
+          "email": email,
+          "password": password,
+          "phone": phNo,
           "location": location,
-          "description": description,
+          "address": address,
           "time": time,
-          "distance": distance
+          "distance": distance,
+          "description": description,
+          "is_customer": isCustomer,
+          "is_admin": isAdmin,
+          "is_restaurant_admin": isResAdmin,
+          "restaurant_name": resName,
         },
       ),
     );
@@ -101,6 +238,134 @@ class ItemService {
     }
   }
 
+  // Future<DishResponseModel> createDish(
+  //   int resId,
+  //   String name,
+  //   String price,
+  //   String description,
+  //   String category,
+  //   int isSpicy,
+  //   // Uint8List? imageBytes,
+  //   // String? fileName,
+  // ) async {
+  //   var url = Uri.parse('$baseUrl/createDish');
+
+  //   var request = http.MultipartRequest('POST', url)
+  //     ..fields['restaurant_id'] = resId.toString()
+  //     ..fields['name'] = name
+  //     ..fields['price'] = price
+  //     ..fields['description'] = description
+  //     ..fields['category'] = category
+  //     ..fields['is_spicy'] = isSpicy.toString();
+  //   _logger.i("Request ===> $request");
+  //   if (imageBytes != null && fileName != null) {
+  //     request.files.add(http.MultipartFile.fromBytes('photo_path', imageBytes,
+  //         filename: fileName));
+  //   }
+
+  //   try {
+  //     var response = await request.send().timeout(const Duration(seconds: 40));
+  //     if (response.statusCode == 200) {
+  //       _logger.i("Request ===> $response");
+
+  //       final responseBody = await response.stream.bytesToString();
+  //       return DishResponseModel.fromJson(jsonDecode(responseBody));
+  //     } else {
+  //       throw Exception(response.toString());
+  //     }
+  //   } catch (e) {
+  //     throw Exception(e.toString());
+  //   }
+  // }
+
+  // Future<DishResponseModel> createDish(
+  //   int resId,
+  //   String name,
+  //   String price,
+  //   String description,
+  //   String category,
+  //   int isSpicy,
+  //   Uint8List? imageBytes,
+  //   String? fileName,
+  // ) async {
+  //   final response = await http.post(
+  //     headers: {"Content-Type": "application/json"},
+  //     Uri.parse('$baseUrl/createDish'),
+  //     body: jsonEncode({
+  //       "restaurant_id": resId,
+  //       "name": name,
+  //       "description": description,
+  //       "price": price,
+  //       "is_spicy": isSpicy,
+  //       "category": category,
+  //       "photo_path": base64Image,
+  //     }),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     return DishResponseModel.fromJson(json.decode(response.body));
+  //   } else {
+  //     throw Exception('Failed to create item');
+  //   }
+  // }
+
+//   Future<DishResponseModel> createDish(
+//     int resId,
+//     String name,
+//     String price,
+//     String description,
+//     String category,
+//     int isSpicy,
+//     Uint8List? imageBytes,
+//     File? imageFile, // Add the image file parameter
+//   ) async {
+//  Uri.parse('$baseUrl/updateRestaurant/$id'),
+//     var request = http.MultipartRequest('POST', url)
+//       ..fields['restaurant_id'] = name
+//       ..fields['name'] = date
+//       ..fields['description'] = time
+//       ..fields['price'] = day
+//       ..fields['is_spicy'] = youTubeLink
+//    ..fields['category'] = youTubeLink;
+//     if (imageBytes != null && fileName != null) {
+//       request.files.add(http.MultipartFile.fromBytes('photo_path', imageBytes,
+//           filename: fileName));
+//     }
+
+//     var request = http.MultipartRequest(
+//       'POST',
+//       Uri.parse('$baseUrl/createDish'),
+//     );
+//     request.fields['restaurant_id'] = resId.toString();
+//     request.fields['name'] = name;
+//     request.fields['description'] = description;
+//     request.fields['price'] = price;
+//     request.fields['is_spicy'] = isSpicy.toString();
+//     request.fields['category'] = category;
+
+//     if (imageFile != null) {
+//       request.files.add(
+//         await http.MultipartFile.fromBytes(
+//           'photo_path',
+//           imageBytes,
+//           imageFile.path,
+//         ),
+//       );
+//     }
+
+  // Add the other form fields
+
+  // Send the request and get the response
+  //   var response = await request.send();
+
+  //   if (response.statusCode == 200) {
+  //     final responseBody = await response.stream.bytesToString();
+  //     return DishResponseModel.fromJson(json.decode(responseBody));
+  //   } else {
+  //     throw Exception('Failed to create dish');
+  //   }
+  // }
+
+  ////////////
   Future<DishResponseModel> createDish(
     int resId,
     String name,
@@ -113,18 +378,12 @@ class ItemService {
       headers: {"Content-Type": "application/json"},
       Uri.parse('$baseUrl/createDish'),
       body: jsonEncode({
-        "restaurant_id": resId,
+        "user_id": resId,
         "name": name,
         "description": description,
         "price": price,
         "is_spicy": isSpicy,
         "category": category
-        // "name": name,
-        // "restaurantId": resId,
-        // "price": price,
-        // "description": description,
-        // "category": category,
-        // "isSpicy": isSpicy,
       }),
     );
     if (response.statusCode == 200) {
@@ -147,7 +406,7 @@ class ItemService {
       headers: {"Content-Type": "application/json"},
       Uri.parse('$baseUrl/updateDish/$id'),
       body: jsonEncode({
-        "restaurant_id": resId,
+        "user_id": resId,
         "name": name,
         "description": description,
         "price": price,
@@ -169,27 +428,25 @@ class ItemService {
   }
 
   Future<DishModel> createAddToCart(
-      {required String resId,
-      required int userId,
+      {required int userId,
       required String name,
+      required String resName,
       required String description,
-      required String shop,
-      required double price,
+      required int price,
       required int isspicy,
       required String category}) async {
     final response = await http.post(
       Uri.parse('$baseUrl/createAddToCart'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "restaurant_id": resId,
+      // headers: {"Content-Type": "application/json"},
+      body: {
         "user_id": userId,
-        "restaurant_name": shop,
+        "restaurant_name": resName,
         "name": name,
-        "description": description,
-        "price": price, // Convert int to String
+        "description": name,
+        "price": price,
         "is_spicy": isspicy, // Convert int to String
-        "category": category
-      }),
+        "category": category, // Convert int to String
+      },
     );
     if (response.statusCode == 200) {
       return DishModel.fromJson(json.decode(response.body));
@@ -217,9 +474,17 @@ class ItemService {
     }
   }
 
+  Future<void> deleteUser(int id) async {
+    final response = await http.delete(Uri.parse('$baseUrl/deleteUser/$id'));
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to delete item');
+    }
+  }
+
   Future<void> deleteRestaurant(int id) async {
-    final response =
-        await http.delete(Uri.parse('$baseUrl/deleteRestaurant/$id'));
+    final response = await http.delete(Uri.parse('$baseUrl/deleteUser/$id'));
     if (response.statusCode == 200) {
       return;
     } else {
@@ -238,7 +503,7 @@ class ItemService {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "restaurant_id": resId,
-        "user_id": 1,
+        "user_id": userId,
         "total_amount": totalAmount,
         "order_list": orderList
       }),

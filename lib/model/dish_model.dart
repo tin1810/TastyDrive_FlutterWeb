@@ -26,7 +26,7 @@ class DishModel {
 
 class Dishes {
   int? id;
-  int? restaurantId;
+  int? userId;
   String? name;
   String? description;
   double? price;
@@ -37,7 +37,7 @@ class Dishes {
 
   Dishes(
       {this.id,
-      this.restaurantId,
+      this.userId,
       this.name,
       this.description,
       this.price,
@@ -48,7 +48,7 @@ class Dishes {
 
   Dishes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    restaurantId = json['restaurant_id'];
+    userId = json['user_id'];
     name = json['name'];
     description = json['description'];
     price = json['price'];
@@ -61,7 +61,7 @@ class Dishes {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['restaurant_id'] = this.restaurantId;
+    data['user_id'] = this.userId;
     data['name'] = this.name;
     data['description'] = this.description;
     data['price'] = this.price;

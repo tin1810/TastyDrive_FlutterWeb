@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:tasty_drive_website/controller/sign_up_controller.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/custom_login.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/email_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/password_widget.dart';
 
 void signupDialog() {
-  final SignUpController signUpController = Get.put(SignUpController());
+  final AuthController authController = Get.put(AuthController());
 
   Get.dialog(
     AlertDialog(
@@ -20,7 +20,7 @@ void signupDialog() {
       content: Container(
         width: 500,
         padding: const EdgeInsets.symmetric(
-          horizontal: 20,
+          horizontal: 10,
         ),
         margin: EdgeInsets.zero,
         decoration: BoxDecoration(
@@ -49,7 +49,7 @@ void signupDialog() {
               ),
             ),
             EmailTextFieldWidget(
-              emailController: signUpController.emailController,
+              emailController: authController.emailController,
               onChanged: () {
                 // widget.onChangeEmail();
               },
@@ -58,16 +58,26 @@ void signupDialog() {
                   onChanged: () {
                     // widget.onChangePassword();
                   },
-                  isObscure: signUpController.isObscure.value,
-                  passwordController: signUpController.passwordController,
-                  onPressedVisibleIcon:
-                      signUpController.togglePasswordVisibility,
+                  isObscure: authController.isObscure.value,
+                  passwordController: authController.passwordController,
+                  onPressedVisibleIcon: authController.togglePasswordVisibility,
                 )),
             CustomLoginWidget(
               onChanged: () {
                 // widget.onChangeEmail();
               },
-              controller: signUpController.userNameController,
+              controller: authController.nameController,
+              name: 'Name',
+              hint: "Enter Name",
+              validatorText: 'Please enter a name',
+              textInputType: TextInputType.name,
+              icon: Icons.person,
+            ),
+            CustomLoginWidget(
+              onChanged: () {
+                // widget.onChangeEmail();
+              },
+              controller: authController.userNameController,
               name: 'UserName',
               hint: "Enter UserName",
               validatorText: 'Please enter a username',
@@ -78,7 +88,7 @@ void signupDialog() {
               onChanged: () {
                 // widget.onChangeEmail();
               },
-              controller: signUpController.phoneController,
+              controller: authController.phoneController,
               name: 'Phone',
               hint: "Enter Phone",
               validatorText: 'Please enter a phone',
@@ -89,7 +99,7 @@ void signupDialog() {
               onChanged: () {
                 // widget.onChangeEmail();
               },
-              controller: signUpController.addressController,
+              controller: authController.addressController,
               name: 'Address',
               hint: "Enter Address",
               validatorText: 'Please enter a address',
@@ -99,7 +109,10 @@ void signupDialog() {
             MaterialButton(
               color: Colors.green,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              onPressed: () {},
+              onPressed: () {
+                authController.register();
+                Get.back();
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

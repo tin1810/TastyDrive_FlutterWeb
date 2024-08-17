@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasty_drive_website/controller/controller.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/controller/dish_controller.dart';
 
 import 'package:tasty_drive_website/presentation/admin_side/widget/edit_dish_dialog.dart';
@@ -15,12 +17,14 @@ class DishesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DishController dishController = Get.put(DishController());
+    final AuthController authController = Get.put(AuthController());
 
     return Column(
       children: [
-        const TitleWIdgetForDishes(
+        TitleWIdgetForDishes(
           name: "Manage Dishes",
           buttonName: '+ Add Dishes',
+          id: authController.loginresponse.value?.tastyDriveUsers?.id ?? 0,
         ),
         const SizedBox(
           height: 10,
@@ -28,20 +32,27 @@ class DishesWidget extends StatelessWidget {
         Obx(
           () {
             if (dishController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else {
               final dish = dishController.dish.value;
               if (dish == null) {
-                return Center(child: Text('No restaurant found'));
+                return const Center(child: Text('No restaurant found'));
               }
+              final filteredDishes = dish.dishes
+                      ?.where((d) =>
+                          d.userId ==
+                          authController
+                              .loginresponse.value?.tastyDriveUsers?.id)
+                      .toList() ??
+                  [];
               return GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     mainAxisSpacing: 8.0,
                     crossAxisSpacing: 8.0,
-                    childAspectRatio: 1.2),
-                itemCount: dishController.dish.value?.dishes?.length,
+                    childAspectRatio: 1.1),
+                itemCount: filteredDishes.length,
                 itemBuilder: (context, index) {
                   return Container(
                     decoration: BoxDecoration(
@@ -67,11 +78,13 @@ class DishesWidget extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // child: Image.memory(
+                          //   base64Decode(dish.dishes?[index].photoPath ?? ""),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            dish.dishes?[index].name ?? "",
+                            filteredDishes[index].name ?? "",
                             style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -81,11 +94,21 @@ class DishesWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            "\$  ${dish.dishes?[index].price ?? ""}",
+                            filteredDishes[index].category ?? "",
+                            style: GoogleFonts.poppins(
+                                color: Colors.lightGreen,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            "Price : \$${filteredDishes[index].price ?? ""}",
                             style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontSize: 16,
-                                fontWeight: FontWeight.w700),
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                         Padding(
@@ -99,12 +122,12 @@ class DishesWidget extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 onPressed: () {
-                                  final selectedDish = dish.dishes?[index];
+                                  final selectedDish = filteredDishes[index];
                                   if (selectedDish != null) {
                                     editDishDialog(selectedDish);
                                   }
                                 },
-                                child: Text("Edit"),
+                                child: const Text("Edit"),
                               ),
                               MaterialButton(
                                 color: Colors.red,
@@ -129,7 +152,8 @@ class DishesWidget extends StatelessWidget {
                                         TextButton(
                                             onPressed: () {
                                               dishController.deleteDish(
-                                                  dish.dishes?[index].id ?? 0);
+                                                  filteredDishes[index].id ??
+                                                      0);
                                               Get.back();
                                             },
                                             child: Text(
@@ -141,7 +165,7 @@ class DishesWidget extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: Text("Delete"),
+                                child: const Text("Delete"),
                               ),
                             ],
                           ),

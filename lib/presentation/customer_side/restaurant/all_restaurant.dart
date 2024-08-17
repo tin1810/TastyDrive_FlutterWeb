@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tasty_drive_website/controller/controller.dart';
-import 'package:tasty_drive_website/model/restaurant_model.dart';
+import 'package:tasty_drive_website/model/user_model.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/widget/footer_section.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/restaurant_detail.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/all_restaurant_item.dart';
@@ -34,10 +34,13 @@ class AllRestaurantScreen extends StatelessWidget {
               if (controller.isLoading.value) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                final restaurant = controller.restaurant.value;
+                final restaurant = controller.users.value;
                 if (restaurant == null) {
                   return Center(child: Text('No restaurant found'));
                 }
+                final restaurants = controller.users.value?.users
+                    ?.where((u) => u.isRestaurantAdmin == 1)
+                    .toList();
 
                 return LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -63,23 +66,21 @@ class AllRestaurantScreen extends StatelessWidget {
                             ? 0.56
                             : Responsive.isTablet(context)
                                 ? 0.45
-                                : 1,
+                                : 1.3,
                       ),
-                      itemCount:
-                          controller.restaurant.value?.restaurants?.length,
+                      itemCount: restaurants?.length,
                       itemBuilder: (context, index) {
-                        final Restaurants? clickedRes =
-                            controller.restaurant.value?.restaurants?[index];
+                        // final Users? clickedRes =
+                        //     controller.users.value?.users?[index];
                         return GestureDetector(
                           onTap: () {
                             Get.to(() => RestaurantDetailScreen(
-                                  restaurants: clickedRes,
+                                  restaurants: restaurants?[index],
                                 ));
                           },
                           child: AllRestaurantItem(
                             height: height,
-                            restaurants: controller
-                                .restaurant.value?.restaurants?[index],
+                            restaurants: restaurants?[index],
                           ),
                         );
                       },

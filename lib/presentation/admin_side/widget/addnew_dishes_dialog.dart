@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -128,7 +130,7 @@ void showAddDishDialog(int id) {
             CustomTextField(
               controller: dishController.categoryController,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Align(
@@ -188,6 +190,46 @@ void showAddDishDialog(int id) {
                 ),
               ),
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: () async {
+            //         // imageUploadController.pickImage();
+            //         final input = html.FileUploadInputElement();
+            //         input.accept = 'image/*';
+            //         input.onChange.listen((e) async {
+            //           final files = input.files;
+            //           if (files!.isEmpty) {
+            //             Get.snackbar("No Image Selected", "");
+            //             return;
+            //           }
+            //           final file = files[0];
+            //           final reader = html.FileReader();
+            //           reader.readAsArrayBuffer(file);
+            //           reader.onLoadEnd.listen((_) async {
+            //             final fileBytes = reader.result as Uint8List;
+            //             dishController.onPickUpImage(fileBytes, file.name);
+            //           });
+            //         });
+            //         input.click();
+            //       },
+            //       child: const Text('Pick Image'),
+            //     ),
+            //     // Obx(() {
+            //     //   return imageUploadController.selectedImageBase64.value != null
+            //     //       ? Image.network(
+            //     //           'data:image/png;base64,${imageUploadController.selectedImageBase64.value!}',
+            //     //           height: 100,
+            //     //           width: 100,
+            //     //           fit: BoxFit.cover,
+            //     //         )
+            //     //       : const Text('No image selected');
+            //     // }),
+            //   ],
+            // ),
+            // // Display selected image
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: MaterialButton(
@@ -197,7 +239,7 @@ void showAddDishDialog(int id) {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 onPressed: () {
-                  dishController.createDish(id);
+                  dishController.createDishWithImage(id);
                   Get.back();
                 },
                 color: Colors.green,

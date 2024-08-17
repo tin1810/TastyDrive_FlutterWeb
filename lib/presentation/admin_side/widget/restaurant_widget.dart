@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/controller/controller.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/edit_restaurant_dialog.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/title_dishes_widget.dart';
@@ -13,14 +14,15 @@ class RestaurantWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RestaurantController controller = Get.put(RestaurantController());
+    final AuthController authController = Get.put(AuthController());
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const TitleWIdgetForDishes(
+        TitleWIdgetForDishes(
           name: 'Manage Restaurants',
           buttonName: '+ Add Restaurants',
-          id: 8,
+          id: authController.loginresponse.value?.tastyDriveUsers?.id ?? 0,
         ),
         const SizedBox(
           height: 10,
@@ -29,9 +31,11 @@ class RestaurantWidget extends StatelessWidget {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            final restaurant = controller.restaurant.value;
-            if (restaurant == null) {
-              return const Center(child: Text('No restaurant found'));
+            final users = controller.users.value?.users
+                ?.where((user) => user.isRestaurantAdmin == 1)
+                .toList();
+            if (users == null || users.isEmpty) {
+              return const Center(child: Text('No restaurant admin found'));
             }
             return GridView.builder(
               shrinkWrap: true,
@@ -39,8 +43,8 @@ class RestaurantWidget extends StatelessWidget {
                   crossAxisCount: 4,
                   mainAxisSpacing: 8.0,
                   crossAxisSpacing: 8.0,
-                  childAspectRatio: 1.2),
-              itemCount: controller.restaurant.value?.restaurants?.length,
+                  childAspectRatio: 1.1),
+              itemCount: users.length,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
@@ -69,25 +73,31 @@ class RestaurantWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          controller
-                                  .restaurant.value?.restaurants?[index].name ??
-                              "",
+                          users[index].name ?? "",
                           style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 15,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          users[index].email ?? "",
+                          style: GoogleFonts.poppins(
+                              color: Colors.lightGreen,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          controller.restaurant.value?.restaurants?[index]
-                                  .location ??
-                              "",
+                          users[index].location ?? "",
                           style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                       Padding(
@@ -101,8 +111,7 @@ class RestaurantWidget extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               onPressed: () {
-                                final selectedRes =
-                                    restaurant.restaurants?[index];
+                                final selectedRes = users[index];
                                 if (selectedRes != null) {
                                   editRestaurantDialog(selectedRes);
                                 }
@@ -129,9 +138,7 @@ class RestaurantWidget extends StatelessWidget {
                                       TextButton(
                                           onPressed: () {
                                             controller.deleteRestaurant(
-                                                restaurant.restaurants?[index]
-                                                        .id ??
-                                                    0);
+                                                users[index].id ?? 0);
                                             Get.back();
                                           },
                                           child: Text(

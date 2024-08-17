@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:tasty_drive_website/controller/home_controller.dart';
 import 'package:tasty_drive_website/presentation/customer_side/about/about_us_screen.dart';
 import 'package:tasty_drive_website/presentation/customer_side/blog/blog_screen.dart';
-import 'package:tasty_drive_website/presentation/customer_side/checkout/checkout_screen.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/home_view_page.dart';
 
 import 'package:tasty_drive_website/presentation/customer_side/home/widget/side_menu.dart';
@@ -24,10 +23,8 @@ class HomePage extends StatelessWidget {
             return HomeViewPage();
           case 1:
             return AboutUsScreen();
-          case 2:
-            return BlogScreen();
           default:
-            return CheckoutScreen();
+            return BlogScreen();
         }
       }),
     );

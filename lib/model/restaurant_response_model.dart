@@ -27,6 +27,8 @@ class Restaurants {
   String? description;
   String? time;
   String? distance;
+  String? email;
+  String? password;
   String? updatedAt;
   String? createdAt;
   int? id;
@@ -37,6 +39,8 @@ class Restaurants {
       this.description,
       this.time,
       this.distance,
+      this.email,
+      this.password,
       this.updatedAt,
       this.createdAt,
       this.id});
@@ -47,6 +51,8 @@ class Restaurants {
     description = json['description'];
     time = json['time'];
     distance = json['distance'];
+    email = json['email'];
+    password = json['password'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
@@ -59,6 +65,8 @@ class Restaurants {
     data['description'] = this.description;
     data['time'] = this.time;
     data['distance'] = this.distance;
+    data['email'] = this.email;
+    data['password'] = this.password;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;

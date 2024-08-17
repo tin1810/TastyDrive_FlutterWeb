@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:tasty_drive_website/controller/auth_controller.dart';
 import 'package:tasty_drive_website/model/admin_model.dart';
 import 'package:tasty_drive_website/model/delivery_card_model.dart';
 import 'package:tasty_drive_website/model/home_banner_model.dart';
@@ -9,7 +11,7 @@ class HomeController extends GetxController {
   RxInt _selectedIndex = 0.obs;
   var selected = 0.obs;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final AuthController authController = Get.find<AuthController>();
   int get selectedIndex => _selectedIndex.value;
   List<String> get menuItems => [
         "Home",
@@ -52,8 +54,11 @@ class HomeController extends GetxController {
       ];
 
   List<AdminModel> get adminList => [
-        AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Delivery"),
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Restaurant"),
+        AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "User"),
+      ];
+  List<AdminModel> get restaurantAdminList => [
+        AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Delivery"),
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Order"),
         AdminModel("assets/icons/deliveryman-svgrepo-com.svg", "Dishes"),
       ];
@@ -106,6 +111,13 @@ class HomeController extends GetxController {
           orderNumber: '20548093A63DY',
         ),
       ];
+
+  @override
+  void onInit() {
+    authController.checkUserLoginStatus();
+    super.onInit();
+  }
+
   void openOrCloseDrawer() {
     if (_scaffoldKey.currentState!.isDrawerOpen) {
       _scaffoldKey.currentState!.openEndDrawer();
