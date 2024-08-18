@@ -122,6 +122,7 @@ class CustomAppBarAdminPanel extends StatelessWidget
                               onChangePassword: () {},
                               onTapLogin: () {
                                 authController.loginAdmin();
+                                Get.back();
                               },
                             );
                           });

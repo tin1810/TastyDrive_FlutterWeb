@@ -9,6 +9,7 @@ import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/route_to_home_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/search_text_field_widget.dart';
 import 'package:tasty_drive_website/responsive.dart';
+import 'package:tasty_drive_website/util/widget/appbar_res.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar.dart';
 
 class AllRestaurantScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class AllRestaurantScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchTextFieldWidget(width: width),
+            // SearchTextFieldWidget(width: width),
             const RouteToHomeWidget(),
             const PopularTitleTextWidget(),
             Obx(() {

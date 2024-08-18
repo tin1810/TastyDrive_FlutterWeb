@@ -69,7 +69,7 @@ class DishController extends GetxController {
       );
 
       if (response.status == 'success') {
-        showSuccessDialog();
+        showSuccessDialog("Successfully Create Dish");
         fetchDishes();
       } else {
         Get.snackbar('Error', 'Failed to create dish');
@@ -184,7 +184,7 @@ class DishController extends GetxController {
           categoryController.text,
           isSpicy.value == true ? 0 : 1);
       if (response.status == 'success') {
-        showSuccessDialog();
+        showSuccessDialog("Successfully Update Dish");
 
         fetchDishes();
       } else {

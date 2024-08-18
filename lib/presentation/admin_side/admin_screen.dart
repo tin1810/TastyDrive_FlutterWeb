@@ -33,8 +33,7 @@ class AdminDashBoardScreen extends StatelessWidget {
           if (Responsive.isDesktop(context))
             DashBoardMenuWidget(width: width, height: height),
           Obx(() {
-            if (authController.loginresponse.value?.tastyDriveUsers?.isAdmin ==
-                1) {
+            if (authController.loginresponse.value?.users?.isAdmin == 1) {
               return Expanded(
                 child: SingleChildScrollView(
                   child: Column(

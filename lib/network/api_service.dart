@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/web.dart';
 import 'package:tasty_drive_website/model/add_to_cart_list_model.dart';
 import 'package:tasty_drive_website/model/checkout_order_model.dart';
+import 'package:tasty_drive_website/model/checkout_update_response.model.dart';
 import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/model/dish_response_model.dart';
 import 'package:tasty_drive_website/model/login_response_model.dart';
@@ -66,7 +67,7 @@ class ItemService {
     }
   }
 
-  Future<RegisterResponseModel> register({
+  Future<LoginResponseModel> register({
     required String name,
     required String userName,
     required String email,
@@ -101,7 +102,7 @@ class ItemService {
           "restaurant_name": resName,
         }));
     if (response.statusCode == 200) {
-      return RegisterResponseModel.fromJson(json.decode(response.body));
+      return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to Register');
     }
@@ -147,14 +148,14 @@ class ItemService {
     }
   }
 
-  Future<CheckoutOrderModel?> getCheckoutOrder() async {
+  Future<CheckoutModel?> getCheckoutOrder() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/getOrders'));
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         print("API Response: $jsonResponse"); // Log the JSON response
-        return CheckoutOrderModel.fromJson(jsonResponse);
+        return CheckoutModel.fromJson(jsonResponse);
       } else {
         print(
             'Failed to load items: ${response.statusCode}'); // Log status code
@@ -163,6 +164,70 @@ class ItemService {
     } catch (e) {
       print('Error occurred while fetching order: $e'); // Log the error
       return null;
+    }
+  }
+
+  Future<CheckoutUpdateResponseModel> updateCheckoutOrder({
+    required int id,
+    required int itemId,
+    required String status,
+  }) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/updateOrderStatus/$id/$itemId'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "order_status": status,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return CheckoutUpdateResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to create item');
+    }
+  }
+
+  Future<LoginResponseModel> updateUser({
+    required int id,
+    required String name,
+    required String userName,
+    required String email,
+    required String password,
+    required String phNo,
+    required String address,
+    required int isCustomer,
+    required int isResAdmin,
+    required int isAdmin,
+    required String location,
+    required dynamic time,
+    required String distance,
+    required dynamic description,
+    required String resName,
+  }) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/updateUser/$id'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "name": name,
+        "user_name": userName,
+        "email": email,
+        "password": password,
+        "phone": phNo,
+        "location": location,
+        "address": address,
+        "time": time,
+        "distance": distance,
+        "description": description,
+        "is_customer": isCustomer,
+        "is_admin": isAdmin,
+        "is_restaurant_admin": isResAdmin,
+        "restaurant_name": resName,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to create item');
     }
   }
 
@@ -238,134 +303,6 @@ class ItemService {
     }
   }
 
-  // Future<DishResponseModel> createDish(
-  //   int resId,
-  //   String name,
-  //   String price,
-  //   String description,
-  //   String category,
-  //   int isSpicy,
-  //   // Uint8List? imageBytes,
-  //   // String? fileName,
-  // ) async {
-  //   var url = Uri.parse('$baseUrl/createDish');
-
-  //   var request = http.MultipartRequest('POST', url)
-  //     ..fields['restaurant_id'] = resId.toString()
-  //     ..fields['name'] = name
-  //     ..fields['price'] = price
-  //     ..fields['description'] = description
-  //     ..fields['category'] = category
-  //     ..fields['is_spicy'] = isSpicy.toString();
-  //   _logger.i("Request ===> $request");
-  //   if (imageBytes != null && fileName != null) {
-  //     request.files.add(http.MultipartFile.fromBytes('photo_path', imageBytes,
-  //         filename: fileName));
-  //   }
-
-  //   try {
-  //     var response = await request.send().timeout(const Duration(seconds: 40));
-  //     if (response.statusCode == 200) {
-  //       _logger.i("Request ===> $response");
-
-  //       final responseBody = await response.stream.bytesToString();
-  //       return DishResponseModel.fromJson(jsonDecode(responseBody));
-  //     } else {
-  //       throw Exception(response.toString());
-  //     }
-  //   } catch (e) {
-  //     throw Exception(e.toString());
-  //   }
-  // }
-
-  // Future<DishResponseModel> createDish(
-  //   int resId,
-  //   String name,
-  //   String price,
-  //   String description,
-  //   String category,
-  //   int isSpicy,
-  //   Uint8List? imageBytes,
-  //   String? fileName,
-  // ) async {
-  //   final response = await http.post(
-  //     headers: {"Content-Type": "application/json"},
-  //     Uri.parse('$baseUrl/createDish'),
-  //     body: jsonEncode({
-  //       "restaurant_id": resId,
-  //       "name": name,
-  //       "description": description,
-  //       "price": price,
-  //       "is_spicy": isSpicy,
-  //       "category": category,
-  //       "photo_path": base64Image,
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return DishResponseModel.fromJson(json.decode(response.body));
-  //   } else {
-  //     throw Exception('Failed to create item');
-  //   }
-  // }
-
-//   Future<DishResponseModel> createDish(
-//     int resId,
-//     String name,
-//     String price,
-//     String description,
-//     String category,
-//     int isSpicy,
-//     Uint8List? imageBytes,
-//     File? imageFile, // Add the image file parameter
-//   ) async {
-//  Uri.parse('$baseUrl/updateRestaurant/$id'),
-//     var request = http.MultipartRequest('POST', url)
-//       ..fields['restaurant_id'] = name
-//       ..fields['name'] = date
-//       ..fields['description'] = time
-//       ..fields['price'] = day
-//       ..fields['is_spicy'] = youTubeLink
-//    ..fields['category'] = youTubeLink;
-//     if (imageBytes != null && fileName != null) {
-//       request.files.add(http.MultipartFile.fromBytes('photo_path', imageBytes,
-//           filename: fileName));
-//     }
-
-//     var request = http.MultipartRequest(
-//       'POST',
-//       Uri.parse('$baseUrl/createDish'),
-//     );
-//     request.fields['restaurant_id'] = resId.toString();
-//     request.fields['name'] = name;
-//     request.fields['description'] = description;
-//     request.fields['price'] = price;
-//     request.fields['is_spicy'] = isSpicy.toString();
-//     request.fields['category'] = category;
-
-//     if (imageFile != null) {
-//       request.files.add(
-//         await http.MultipartFile.fromBytes(
-//           'photo_path',
-//           imageBytes,
-//           imageFile.path,
-//         ),
-//       );
-//     }
-
-  // Add the other form fields
-
-  // Send the request and get the response
-  //   var response = await request.send();
-
-  //   if (response.statusCode == 200) {
-  //     final responseBody = await response.stream.bytesToString();
-  //     return DishResponseModel.fromJson(json.decode(responseBody));
-  //   } else {
-  //     throw Exception('Failed to create dish');
-  //   }
-  // }
-
-  ////////////
   Future<DishResponseModel> createDish(
     int resId,
     String name,
@@ -427,7 +364,7 @@ class ItemService {
     }
   }
 
-  Future<DishModel> createAddToCart(
+  Future<DishResponseModel> createAddToCart(
       {required int userId,
       required String name,
       required String resName,
@@ -437,8 +374,8 @@ class ItemService {
       required String category}) async {
     final response = await http.post(
       Uri.parse('$baseUrl/createAddToCart'),
-      // headers: {"Content-Type": "application/json"},
-      body: {
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
         "user_id": userId,
         "restaurant_name": resName,
         "name": name,
@@ -446,10 +383,10 @@ class ItemService {
         "price": price,
         "is_spicy": isspicy, // Convert int to String
         "category": category, // Convert int to String
-      },
+      }),
     );
     if (response.statusCode == 200) {
-      return DishModel.fromJson(json.decode(response.body));
+      return DishResponseModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to create item');
     }
@@ -467,6 +404,15 @@ class ItemService {
 
   Future<void> deleteDish(int id) async {
     final response = await http.delete(Uri.parse('$baseUrl/deleteDish/$id'));
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to delete item');
+    }
+  }
+
+  Future<void> deleteOrder(int id) async {
+    final response = await http.delete(Uri.parse('$baseUrl/deleteOrder/$id'));
     if (response.statusCode == 200) {
       return;
     } else {
@@ -492,8 +438,8 @@ class ItemService {
     }
   }
 
-  Future<CheckoutOrderModel> checkoutOrder({
-    required int resId,
+  Future<CheckoutModel> checkoutOrder({
+    // required int resId,
     required int userId,
     required double totalAmount,
     required List<Map<String, dynamic>> orderList,
@@ -502,14 +448,14 @@ class ItemService {
       Uri.parse('$baseUrl/checkoutOrder'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "restaurant_id": resId,
+        // "restaurant_id": resId,
         "user_id": userId,
         "total_amount": totalAmount,
         "order_list": orderList
       }),
     );
     if (response.statusCode == 200) {
-      return CheckoutOrderModel.fromJson(json.decode(response.body));
+      return CheckoutModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to create item');
     }

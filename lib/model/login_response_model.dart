@@ -1,27 +1,25 @@
 class LoginResponseModel {
   String? status;
-  TastyDriveUsers? tastyDriveUsers;
+  Users? users;
 
-  LoginResponseModel({this.status, this.tastyDriveUsers});
+  LoginResponseModel({this.status, this.users});
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    tastyDriveUsers = json['tasty_drive_users'] != null
-        ? new TastyDriveUsers.fromJson(json['tasty_drive_users'])
-        : null;
+    users = json['users'] != null ? new Users.fromJson(json['users']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.tastyDriveUsers != null) {
-      data['tasty_drive_users'] = this.tastyDriveUsers!.toJson();
+    if (this.users != null) {
+      data['users'] = this.users!.toJson();
     }
     return data;
   }
 }
 
-class TastyDriveUsers {
+class Users {
   int? id;
   String? name;
   String? userName;
@@ -40,7 +38,7 @@ class TastyDriveUsers {
   String? createdAt;
   String? updatedAt;
 
-  TastyDriveUsers(
+  Users(
       {this.id,
       this.name,
       this.userName,
@@ -59,7 +57,7 @@ class TastyDriveUsers {
       this.createdAt,
       this.updatedAt});
 
-  TastyDriveUsers.fromJson(Map<String, dynamic> json) {
+  Users.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     userName = json['user_name'];

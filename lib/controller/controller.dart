@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tasty_drive_website/controller/auth_controller.dart';
+import 'package:tasty_drive_website/model/login_response_model.dart';
 import 'package:tasty_drive_website/model/register_response_model.dart';
 import 'package:tasty_drive_website/model/restaurant_response_model.dart';
 import 'package:tasty_drive_website/model/user_model.dart';
@@ -92,7 +93,7 @@ class RestaurantController extends GetxController {
   void createRestaurant() async {
     try {
       isLoading.value = true;
-      RegisterResponseModel response = await _itemService.register(
+      LoginResponseModel response = await _itemService.register(
         name: nameController.text,
         userName: "",
         email: emailController.text,
@@ -110,12 +111,25 @@ class RestaurantController extends GetxController {
       );
 
       if (response.status == 'success') {
-        showSuccessDialog();
+        showSuccessDialog("Successfully Create Restaurant");
         Get.snackbar('Success', 'Successfully Created Restaurant');
         fetchRestaurants();
       } else {
         Get.snackbar('Error', 'Failed to create restaurant');
       }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteUser(int id) async {
+    try {
+      await _itemService.deleteRestaurant(id); // Use the deleteItem method
+      users.value?.users?.removeWhere((item) => item.id == id);
+      users.refresh(); // Refresh the list to update the UI
+      Get.snackbar('Success', 'Successfully Deleted User');
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

@@ -16,7 +16,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final CheckoutController controller = Get.find<CheckoutController>();
     return Scaffold(
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       appBar: AppBar(
         backgroundColor: Colors.cyan.withOpacity(0.2),
         title: Text(
@@ -94,31 +94,20 @@ class CheckoutScreen extends StatelessWidget {
                                     "category": item.category ?? "",
                                     "price": item.price ?? 0.0,
                                     "is_spicy": item.isSpicy ?? 0,
+                                    "order_status": "Pending",
                                     "restaurant_name":
                                         item.restaurantName ?? "",
                                   };
                                 }).toList() ??
                                 [];
 
-                        final ids = addToCart.addToCart
-                                ?.map((item) => item.id ?? 0)
-                                .toList() ??
-                            [];
-                        final id = controller.selectRestaurantId(ids);
-                        final restaurantIds = addToCart.addToCart
-                                ?.map((item) => item.restaurantId ?? 0)
-                                .toList() ??
-                            [];
-                        final resId =
-                            controller.selectRestaurantId(restaurantIds);
                         var box = Hive.box('userBox');
                         var userId = box.get('userId');
                         controller.checkoutOrder(
-                            resId: resId,
-                            userId: userId,
-                            totalAmount: subtotal,
-                            orderList: orderList,
-                            id: id);
+                          userId: userId,
+                          totalAmount: subtotal,
+                          orderList: orderList,
+                        );
                       },
                     ),
                     const SizedBox(height: 20),

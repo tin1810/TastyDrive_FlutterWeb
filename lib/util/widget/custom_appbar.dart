@@ -14,6 +14,7 @@ import 'package:tasty_drive_website/presentation/customer_side/home/home_view_pa
 import 'package:tasty_drive_website/presentation/customer_side/login/login.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/login_admin_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/login/widget/sign_up_dialog.dart';
+import 'package:tasty_drive_website/presentation/customer_side/profile/profile_screen.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/hover_icon.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
@@ -111,52 +112,70 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(width: 10),
             ]
           : [
-              authController.isAlreadyLogin.value == true
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(() => const CheckoutScreen());
-                      },
-                      child: SvgPicture.asset("assets/icons/cart.svg"),
-                    )
-                  : SizedBox(),
-              const SizedBox(width: 30),
-              // const Icon(Icons.person),
-              const SizedBox(width: 10),
+              // authController.isAlreadyLogin.value == true
+              //     ? InkWell(
+              //         onTap: () {
+              //           Get.to(() => const CheckoutScreen());
+              //         },
+              //         child: SvgPicture.asset("assets/icons/cart.svg"),
+              //       )
+              //     : SizedBox(),
+              // const SizedBox(width: 30),
+              // // const Icon(Icons.person),
+              // const SizedBox(width: 10),
+
               Obx(() => authController.isAlreadyLogin.value
-                  ? TextButton(
-                      onPressed: () {
-                        Get.dialog(AlertDialog(
-                          title: Text(
-                            "Are you sure to logout?",
-                            style: GoogleFonts.poppins(
-                                color: Colors.black, fontSize: 18),
+                  ? Row(
+                      children: [
+                        Container(
+                          child: IconButton(
+                            icon: Icon(Icons.person),
+                            onPressed: () {
+                              Get.to(() => ProfileScreen());
+                            },
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text(
-                                "Cancel",
-                                style: GoogleFonts.poppins(color: Colors.grey),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.dialog(
+                              AlertDialog(
+                                title: Text(
+                                  "Are you sure to logout?",
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.black, fontSize: 18),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.grey),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      authController.logout();
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Yes",
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.red),
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  authController.logout();
-                                  Get.back();
-                                },
-                                child: Text(
-                                  "Yes",
-                                  style: GoogleFonts.poppins(color: Colors.red),
-                                ))
-                          ],
-                        ));
-                      },
-                      child: Text(
-                        "Logout",
-                        style: GoogleFonts.poppins(color: Colors.red),
-                      ),
+                            );
+                          },
+                          child: Text(
+                            "Logout",
+                            style: GoogleFonts.poppins(color: Colors.red),
+                          ),
+                        ),
+                      ],
                     )
                   : Padding(
                       padding: const EdgeInsets.only(
@@ -196,117 +215,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     )),
             ],
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class CustomAppBarRestaurant extends StatelessWidget
-    implements PreferredSizeWidget {
-  const CustomAppBarRestaurant({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final AuthController authController = Get.find<AuthController>();
-    return AppBar(
-      leadingWidth: 300,
-      backgroundColor: Colors.white,
-      leading: Container(
-        padding: Responsive.isDesktop(context)
-            ? const EdgeInsets.only(
-                left: 50,
-                top: 5,
-                bottom: 5,
-              )
-            : Responsive.isTablet(context)
-                ? const EdgeInsets.only(
-                    left: 20,
-                    top: 5,
-                    bottom: 5,
-                  )
-                : null,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            CircleAvatar(
-                maxRadius: Responsive.isDesktop(context) ? 30 : 20,
-                backgroundImage: const AssetImage(
-                  'assets/icons/Tasty.png',
-                )),
-            const SizedBox(width: 4), // Adjust space between icon and text
-            Flexible(
-              child: Text(
-                "Tasty Drive",
-                style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.green),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        authController.isAlreadyLogin.value == false
-            ? MaterialButton(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    side: BorderSide(color: Colors.green.shade800)),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return LoginAdminWidget(
-                          emailController: TextEditingController(),
-                          passwordController: TextEditingController(),
-                          onChangeEmail: () {},
-                          onChangePassword: () {},
-                          onTapLogin: () {},
-                        );
-                      });
-                },
-                child: const Text("Log In"),
-              )
-            : SizedBox(),
-        Padding(
-          padding: Responsive.isDesktop(context)
-              ? const EdgeInsets.only(right: 40, left: 20)
-              : const EdgeInsets.only(right: 2, left: 2),
-          child: authController.isAlreadyLogin.value == false
-              ? MaterialButton(
-                  color: Colors.green.shade800,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      side: const BorderSide(color: Colors.black12)),
-                  onPressed: () {
-                    signupDialog();
-                  },
-                  child: Text(
-                    "SignUp",
-                    style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                )
-              : SizedBox(),
-        ),
-        if (Responsive.isDesktop(context))
-          const SizedBox(
-            width: 30,
-          ),
-        authController.isAlreadyLogin.value == true
-            ? HoverableIconButton()
-            : SizedBox(),
-        if (Responsive.isDesktop(context))
-          const SizedBox(
-            width: 50,
-          ),
-      ],
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showSuccessDialog() {
+void showSuccessDialog(String text) {
   Get.dialog(AlertDialog(
     title: Text("Success"),
-    content: Text("Successfully Added"),
+    content: Text(text),
   ));
 }

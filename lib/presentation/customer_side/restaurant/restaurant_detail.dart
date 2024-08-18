@@ -8,6 +8,7 @@ import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/restaurant_card_widget.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/route_to_other.dart';
 import 'package:tasty_drive_website/responsive.dart';
+import 'package:tasty_drive_website/util/widget/appbar_res.dart';
 import 'package:tasty_drive_website/util/widget/custom_appbar.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
@@ -57,14 +58,14 @@ class RestaurantDetailScreen extends StatelessWidget {
             ),
             GridViewDetail(
               id: restaurants?.id ?? 0,
+              name: restaurants?.name ?? "",
             ),
             const DetailTextWidget(
               name: "Menu",
               hasIcon: false,
             ),
             GridViewDetail(
-              id: restaurants?.id ?? 0,
-            ),
+                id: restaurants?.id ?? 0, name: restaurants?.name ?? ""),
           ],
         ),
       ),

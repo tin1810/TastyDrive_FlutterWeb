@@ -15,9 +15,11 @@ import 'package:tasty_drive_website/responsive.dart';
 
 class GridViewDetail extends StatelessWidget {
   final int id;
+  final String name;
   const GridViewDetail({
     super.key,
     required this.id,
+    required this.name,
   });
 
   @override
@@ -92,11 +94,12 @@ class GridViewDetail extends StatelessWidget {
                           ? addToCartDialog(onClicked: () {
                               var box = Hive.box('userBox');
                               var userId = box.get('userId');
+
                               controller.creatAddToCart(
                                 name: filteredDishes[index].name ?? "",
                                 description:
                                     filteredDishes[index].description ?? "",
-                                resName: "Burger King",
+                                resName: name,
                                 userId: userId,
                                 category: filteredDishes[index].category ?? "",
                                 price:

@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:tasty_drive_website/controller/controller.dart';
 import 'package:tasty_drive_website/model/add_to_cart_list_model.dart';
 import 'package:tasty_drive_website/model/checkout_order_model.dart';
+import 'package:tasty_drive_website/model/checkout_update_response.model.dart';
 import 'package:tasty_drive_website/model/dish_model.dart';
+import 'package:tasty_drive_website/model/dish_response_model.dart';
 import 'package:tasty_drive_website/network/api_service.dart';
 import 'package:logger/web.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/success_dialog.dart';
@@ -12,9 +14,10 @@ class CheckoutController extends GetxController {
   final ItemService _itemService = ItemService();
   final RestaurantController restaurantController =
       Get.find<RestaurantController>();
-  var checkout = Rx<CheckoutOrderModel?>(null);
+  var checkout = Rx<CheckoutModel?>(null);
   var addToCart = Rx<AddToCartListModel?>(null);
-
+  var checkoutResponse = Rx<CheckoutUpdateResponseModel?>(null);
+  var isAssigned = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -59,33 +62,59 @@ class CheckoutController extends GetxController {
 
   int selectRestaurantId(List<int> restaurantIds) {
     if (restaurantIds.isEmpty) {
-      return 0; // Default or handle no restaurant case
+      return 0;
     }
 
-    // Count occurrences of each restaurant ID
     final frequencyMap = <int, int>{};
     for (var id in restaurantIds) {
       frequencyMap[id] = (frequencyMap[id] ?? 0) + 1;
     }
 
-    // Find the restaurant ID with the highest frequency
     final sortedEntries = frequencyMap.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
     return sortedEntries.isNotEmpty ? sortedEntries.first.key : 0;
   }
 
+  void updateCheckOutOrder({
+    required int id,
+    required int itemId,
+    required String status,
+  }) async {
+    try {
+      isLoading.value = true;
+      CheckoutUpdateResponseModel response =
+          await _itemService.updateCheckoutOrder(
+        id: id,
+        itemId: itemId,
+        status: status,
+      );
+
+      if (response.status == 'success') {
+        _logger.i(response);
+
+        fetchOrder();
+        Get.snackbar('Success', 'Success Delivery Assign');
+      } else {
+        Get.snackbar('Error', 'Failed to create restaurant');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   void checkoutOrder({
-    required int resId,
+    // required int resId,
     required int userId,
     required double totalAmount,
-    required int id,
     required List<Map<String, dynamic>> orderList,
   }) async {
     try {
       isLoading.value = true;
-      CheckoutOrderModel response = await _itemService.checkoutOrder(
-        resId: resId,
+      CheckoutModel response = await _itemService.checkoutOrder(
+        // resId: resId,
         userId: userId,
         totalAmount: totalAmount,
         orderList: orderList,
@@ -95,7 +124,7 @@ class CheckoutController extends GetxController {
         _logger.i(response);
         deleteFromCartAll();
         Get.offAll(() => HomePage());
-        showSuccessDialog();
+        showSuccessDialog("Successfully Ordered");
       } else {
         Get.snackbar('Error', 'Failed to create restaurant');
       }
@@ -117,7 +146,7 @@ class CheckoutController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-      DishModel response = await _itemService.createAddToCart(
+      DishResponseModel response = await _itemService.createAddToCart(
           userId: userId,
           name: name,
           resName: resName,
@@ -127,7 +156,7 @@ class CheckoutController extends GetxController {
           category: category);
 
       if (response.status == 'success') {
-        showSuccessDialog();
+        showSuccessDialog("Successfully Add To Cart");
         fetchAddToCart();
         // Get.snackbar('Success', 'Restaurant created successfully');
       } else {
@@ -149,6 +178,23 @@ class CheckoutController extends GetxController {
       addToCart.refresh(); // Refresh the list to update the UI
       Get.snackbar('Success', 'Item removed from cart',
           duration: Duration(seconds: 2));
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteOrder(int id) async {
+    try {
+      await _itemService.deleteOrder(id); // Use the deleteItem method
+
+      // If the deletion was successful, remove the item from the local list
+      checkout.value?.orders?.first.orderItems
+          ?.removeWhere((item) => item.id == id);
+      checkout.refresh(); // Refresh the list to update the UI
+      fetchOrder();
+      Get.snackbar('Success', 'Deleted Order', duration: Duration(seconds: 2));
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

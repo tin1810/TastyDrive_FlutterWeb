@@ -129,8 +129,8 @@ class UserScreen extends StatelessWidget {
                                         child: const Text("Cancel")),
                                     TextButton(
                                         onPressed: () {
-                                          restaurantController.deleteRestaurant(
-                                              customer.id ?? 0);
+                                          restaurantController
+                                              .deleteUser(customer.id ?? 0);
                                           Get.back();
                                         },
                                         child: Text(

@@ -28,9 +28,7 @@ class DashBoardMenuWidget extends StatelessWidget {
         height: double.infinity,
         child: GetBuilder<HomeController>(builder: (homeController) {
           return ListView.builder(
-              itemCount: authController
-                          .loginresponse.value?.tastyDriveUsers?.isAdmin ==
-                      1
+              itemCount: authController.loginresponse.value?.users?.isAdmin == 1
                   ? homeController.adminList.length
                   : homeController.restaurantAdminList.length,
               shrinkWrap: true,
@@ -52,8 +50,8 @@ class DashBoardMenuWidget extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SvgPicture.asset(
-                            authController.loginresponse.value?.tastyDriveUsers
-                                        ?.isAdmin ==
+                            authController
+                                        .loginresponse.value?.users?.isAdmin ==
                                     1
                                 ? homeController.adminList[index].icon ?? ""
                                 : homeController
@@ -66,7 +64,7 @@ class DashBoardMenuWidget extends StatelessWidget {
                           ),
                           Expanded(
                               child: Text(authController.loginresponse.value
-                                          ?.tastyDriveUsers?.isAdmin ==
+                                          ?.users?.isAdmin ==
                                       1
                                   ? homeController.adminList[index].title ?? ""
                                   : homeController

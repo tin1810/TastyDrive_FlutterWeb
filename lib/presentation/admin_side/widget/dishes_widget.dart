@@ -24,7 +24,7 @@ class DishesWidget extends StatelessWidget {
         TitleWIdgetForDishes(
           name: "Manage Dishes",
           buttonName: '+ Add Dishes',
-          id: authController.loginresponse.value?.tastyDriveUsers?.id ?? 0,
+          id: authController.loginresponse.value?.users?.id ?? 0,
         ),
         const SizedBox(
           height: 10,
@@ -41,8 +41,7 @@ class DishesWidget extends StatelessWidget {
               final filteredDishes = dish.dishes
                       ?.where((d) =>
                           d.userId ==
-                          authController
-                              .loginresponse.value?.tastyDriveUsers?.id)
+                          authController.loginresponse.value?.users?.id)
                       .toList() ??
                   [];
               return GridView.builder(
@@ -127,7 +126,11 @@ class DishesWidget extends StatelessWidget {
                                     editDishDialog(selectedDish);
                                   }
                                 },
-                                child: const Text("Edit"),
+                                child: Text(
+                                  "Edit",
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.white, fontSize: 14),
+                                ),
                               ),
                               MaterialButton(
                                 color: Colors.red,
@@ -165,7 +168,11 @@ class DishesWidget extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const Text("Delete"),
+                                child: Text(
+                                  "Delete",
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.white, fontSize: 14),
+                                ),
                               ),
                             ],
                           ),

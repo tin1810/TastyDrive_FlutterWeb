@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:logger/web.dart';
+import 'package:tasty_drive_website/controller/controller.dart';
 import 'package:tasty_drive_website/model/login_response_model.dart';
 import 'package:tasty_drive_website/model/register_response_model.dart';
 import 'package:tasty_drive_website/model/user_model.dart';
 import 'package:tasty_drive_website/network/api_service.dart';
 import 'package:tasty_drive_website/presentation/admin_side/admin_screen.dart';
+import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
 
 class AuthController extends GetxController {
   final ItemService _itemService = ItemService();
   late TextEditingController userNameController;
-
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController nameController;
@@ -22,6 +23,7 @@ class AuthController extends GetxController {
   var isObscure = true.obs;
   var isAlreadyLogin = false.obs;
   var loginresponse = Rx<LoginResponseModel?>(null);
+  // var registerResponse = Rx<RegisterResponseModel?>(null);
   var userModel = Rx<UserModel?>(null);
   @override
   void onInit() {
@@ -94,13 +96,13 @@ class AuthController extends GetxController {
 
       if (response.status == 'login success') {
         var box = Hive.box('userBox');
-        box.put('userId', response.tastyDriveUsers?.id);
+        box.put('userId', response.users?.id);
 
         box.put('isAlreadyLogin', true);
         isAlreadyLogin.value = true;
         loginresponse.value = response;
-        if (response.tastyDriveUsers?.isAdmin == 1 ||
-            response.tastyDriveUsers?.isRestaurantAdmin == 1) {
+        if (response.users?.isAdmin == 1 ||
+            response.users?.isRestaurantAdmin == 1) {
           Get.offAll(() => const AdminDashBoardScreen());
         }
         _logger.i(response);
@@ -136,7 +138,7 @@ class AuthController extends GetxController {
 
       if (response.status == 'login success') {
         var box = Hive.box('userBox');
-        box.put('userId', response.tastyDriveUsers?.id);
+        box.put('userId', response.users?.id);
 
         box.put('isAlreadyLogin', true);
         isAlreadyLogin.value = true;
@@ -156,52 +158,52 @@ class AuthController extends GetxController {
     }
   }
 
-  registerForRestaurants({
-    required String resName,
-    required String email,
-    required String password,
-    required String name,
-    required String userName,
-    required String phone,
-    required String address,
-  }) async {
-    try {
-      isLoading.value = true;
-      RegisterResponseModel response = await _itemService.registerForRes(
-          name: name,
-          userName: userName,
-          email: email,
-          password: password,
-          address: address,
-          isCustomer: 0,
-          isResAdmin: 1,
-          isAdmin: 0,
-          resName: resName);
+  // registerForRestaurants({
+  //   required String resName,
+  //   required String email,
+  //   required String password,
+  //   required String name,
+  //   required String userName,
+  //   required String phone,
+  //   required String address,
+  // }) async {
+  //   try {
+  //     isLoading.value = true;
+  //     RegisterResponseModel response = await _itemService.registerForRes(
+  //         name: name,
+  //         userName: userName,
+  //         email: email,
+  //         password: password,
+  //         address: address,
+  //         isCustomer: 0,
+  //         isResAdmin: 1,
+  //         isAdmin: 0,
+  //         resName: resName);
 
-      if (response.status == 'success') {
-        var box = Hive.box('userBox');
-        box.put('userId', response.users?.id);
+  //     if (response.status == 'success') {
+  //       var box = Hive.box('userBox');
+  //       box.put('userId', response.users?.id);
 
-        box.put('isAlreadyLogin', true);
-        isAlreadyLogin.value = true;
+  //       box.put('isAlreadyLogin', true);
+  //       isAlreadyLogin.value = true;
 
-        _logger.i(response);
-        // Get.snackbar('Success', 'Register Success');
-        // Get.offAllNamed('/home');
-      } else {
-        // Get.snackbar('Error', 'Failed to Register');
-      }
-    } catch (e) {
-      // Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
+  //       _logger.i(response);
+  //       // Get.snackbar('Success', 'Register Success');
+  //       // Get.offAllNamed('/home');
+  //     } else {
+  //       // Get.snackbar('Error', 'Failed to Register');
+  //     }
+  //   } catch (e) {
+  //     // Get.snackbar('Error', e.toString());
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
   void register() async {
     try {
       isLoading.value = true;
-      RegisterResponseModel response = await _itemService.register(
+      LoginResponseModel response = await _itemService.register(
           name: nameController.text,
           userName: userNameController.text,
           email: emailController.text,
@@ -222,10 +224,51 @@ class AuthController extends GetxController {
 
         box.put('isAlreadyLogin', true);
         isAlreadyLogin.value = true;
-
+        loginresponse.value = response;
         _logger.i(response);
         Get.snackbar('Success', 'Register Success');
         // Get.offAllNamed('/home');
+      } else {
+        Get.snackbar('Error', 'Failed to Register');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void updateUser() async {
+    try {
+      isLoading.value = true;
+      LoginResponseModel response = await _itemService.updateUser(
+          name: nameController.text,
+          userName: userNameController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          phNo: phoneController.text,
+          address: addressController.text,
+          isCustomer: 1,
+          isResAdmin: 0,
+          isAdmin: 0,
+          location: "",
+          time: "",
+          distance: "",
+          description: "",
+          resName: "",
+          id: loginresponse.value?.users?.id ?? 0);
+      if (response.status == 'success') {
+        var box = Hive.box('userBox');
+        box.put('userId', response.users?.id ?? 0);
+
+        box.put('isAlreadyLogin', true);
+        isAlreadyLogin.value = true;
+        loginresponse.value = response;
+        _logger.i(response);
+        Get.snackbar('Success', 'Updated Success');
+
+        Get.offAll(() => HomePage());
+        fetchUsers();
       } else {
         Get.snackbar('Error', 'Failed to Register');
       }
@@ -246,8 +289,8 @@ class AuthController extends GetxController {
 
     emailController.text = "";
     passwordController.text = "";
-    Get.snackbar("Logout", "Logout Successfully");
 
+    Get.snackbar("Logout", "Logout Successfully");
     update();
   }
 

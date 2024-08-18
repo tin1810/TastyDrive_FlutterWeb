@@ -22,7 +22,7 @@ class RestaurantWidget extends StatelessWidget {
         TitleWIdgetForDishes(
           name: 'Manage Restaurants',
           buttonName: '+ Add Restaurants',
-          id: authController.loginresponse.value?.tastyDriveUsers?.id ?? 0,
+          id: authController.loginresponse.value?.users?.id ?? 0,
         ),
         const SizedBox(
           height: 10,

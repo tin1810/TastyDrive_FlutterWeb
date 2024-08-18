@@ -14,7 +14,32 @@ class TitleWidget extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "Hi, ${authController.loginresponse.value?.tastyDriveUsers?.restaurantName}",
+          "Hi, ${authController.loginresponse.value?.users?.restaurantName}",
+          style: GoogleFonts.poppins(
+              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 22),
+        ),
+        Image.asset(
+          "assets/icons/goodbye.png",
+          height: 30,
+          fit: BoxFit.cover,
+        ),
+      ],
+    );
+  }
+}
+
+class TitleUserWidget extends StatelessWidget {
+  const TitleUserWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final AuthController authController = Get.find<AuthController>();
+    return Row(
+      children: [
+        Text(
+          "Hi, ${authController.loginresponse.value?.users?.name}",
           style: GoogleFonts.poppins(
               color: Colors.black, fontWeight: FontWeight.w600, fontSize: 22),
         ),

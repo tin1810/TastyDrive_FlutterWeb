@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tasty_drive_website/config/dependency.dart';
-import 'package:tasty_drive_website/presentation/admin_side/admin_screen.dart';
 import 'package:tasty_drive_website/presentation/customer_side/home/home_page.dart';
 
 void main() async {
