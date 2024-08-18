@@ -6,11 +6,13 @@ import 'package:tasty_drive_website/model/user_model.dart';
 class AllRestaurantItem extends StatefulWidget {
   final Users? restaurants;
   final double height;
+  final String image;
 
   const AllRestaurantItem({
     Key? key,
     this.restaurants,
     required this.height,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -72,7 +74,7 @@ class _AllRestaurantItemState extends State<AllRestaurantItem>
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
                 child: Image.asset(
-                  "assets/restaurants/tiger_suger.jpg",
+                  widget.image,
                   height: widget.height * 0.2,
                   width: double.infinity,
                   fit: BoxFit.cover,

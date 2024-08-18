@@ -17,7 +17,7 @@ class DishController extends GetxController {
   final ImageUploadController imageUploadController =
       Get.put(ImageUploadController());
   var fileName = "".obs;
-
+  var selectedCategory = ''.obs;
   var isSpicy = false.obs;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -49,6 +49,11 @@ class DishController extends GetxController {
     }
   }
 
+  void updateSelectedCategory(String category) {
+    selectedCategory.value = category;
+    update();
+  }
+
   void onPickUpImage(Uint8List bytes, String fileName) {
     unit8List.value = bytes;
     this.fileName.value = fileName;
@@ -64,7 +69,7 @@ class DishController extends GetxController {
         nameController.text,
         priceController.text,
         descriptionController.text,
-        categoryController.text,
+        selectedCategory.value, // Use selected category
         isSpicy.value == true ? 1 : 0,
       );
 
@@ -80,15 +85,9 @@ class DishController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  // void createDishWithImage(int id) async {
+  // Future<void> createDishWithImage(int id) async {
   //   try {
   //     isLoading.value = true;
-
-  //     String? base64Image = imageUploadController.selectedImageBase64.value;
-
-  //     // Implement your API call here to upload the image and create a dish
-  //     // For web, send the base64 string to your server
 
   //     DishResponseModel response = await _itemService.createDish(
   //       id,
@@ -96,71 +95,14 @@ class DishController extends GetxController {
   //       priceController.text,
   //       descriptionController.text,
   //       categoryController.text,
-  //       isSpicy.value == true ? 0 : 1,
-  //       base64Image, // Pass the base64 string
-  //     );
-
-  //     print(base64Image);
-  //     if (response.status == 'success') {
-  //       showSuccessDialog();
-  //       fetchDishes();
-  //     } else {
-  //       Get.snackbar('Error', 'Failed to create dish');
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar('Error', e.toString());
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
-
-  //////
-  // // void createDishWithImage(int resId) async {
-  //   try {
-  //     isLoading.value = true;
-
-  //     // Assuming `imageFile` is a File object representing the selected image
-  //     File? imageFile = imageUploadController.selectedImage.value;
-
-  //     DishResponseModel response = await _itemService.createDish(
-  //       resId,
-  //       nameController.text,
-  //       priceController.text,
-  //       descriptionController.text,
-  //       categoryController.text,
-  //       isSpicy.value == true ? 0 : 1,
-  //       imageFile, // Pass the image file here
+  //       isSpicy.value == true ? 1 : 0,
   //     );
 
   //     if (response.status == 'success') {
-  //       showSuccessDialog();
+  //       showSuccessDialog("Successfully Create Dish");
   //       fetchDishes();
   //     } else {
   //       Get.snackbar('Error', 'Failed to create dish');
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar('Error', e.toString());
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
-
-  // void createDish(int resId) async {
-  //   try {
-  //     isLoading.value = true;
-  //     DishResponseModel response = await _itemService.createDish(
-  //         8,
-  //         nameController.text,
-  //         priceController.text,
-  //         descriptionController.text,
-  //         categoryController.text,
-  //         isSpicy.value == true ? 0 : 1);
-  //     if (response.status == 'success') {
-  //       showSuccessDialog();
-  //       // Get.snackbar('Success', 'Restaurant created successfully');
-  //       fetchDishes();
-  //     } else {
-  //       Get.snackbar('Error', 'Failed to create restaurant');
   //     }
   //   } catch (e) {
   //     Get.snackbar('Error', e.toString());

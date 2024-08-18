@@ -82,6 +82,15 @@ class AllRestaurantScreen extends StatelessWidget {
                           child: AllRestaurantItem(
                             height: height,
                             restaurants: restaurants?[index],
+                            image: restaurants?[index].name == "Subway"
+                                ? "assets/restaurants/subway.jpg"
+                                : restaurants?[index].name == "StarBuck"
+                                    ? "assets/restaurants/starbuck.jpg"
+                                    : restaurants?[index].name == "La Meow"
+                                        ? "assets/restaurants/lameow.jpg"
+                                        : restaurants?[index].name == "KFC"
+                                            ? "assets/restaurants/kfc.jpg"
+                                            : "assets/restaurants/percent.jpg",
                           ),
                         );
                       },

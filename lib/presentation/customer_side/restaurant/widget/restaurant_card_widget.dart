@@ -7,11 +7,13 @@ import 'package:tasty_drive_website/responsive.dart';
 class RestaurantCardWidget extends StatelessWidget {
   final String name;
   final String time;
+  final String image;
   const RestaurantCardWidget({
     super.key,
     required this.width,
     required this.name,
     required this.time,
+    required this.image,
   });
 
   final double width;
@@ -26,7 +28,7 @@ class RestaurantCardWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
-              "assets/restaurants/tiger_suger.jpg",
+              image,
               width: Responsive.isMobile(context) ? width * 0.24 : width * 0.12,
               // height: height * 0.2,
             ),

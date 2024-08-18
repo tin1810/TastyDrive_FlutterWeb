@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasty_drive_website/controller/dish_controller.dart';
+import 'package:tasty_drive_website/model/dish_model.dart';
 import 'package:tasty_drive_website/presentation/customer_side/restaurant/widget/add_to_cart_dialog.dart';
 import 'package:tasty_drive_website/responsive.dart';
 
@@ -9,6 +12,7 @@ class DetailItemCard extends StatefulWidget {
   final int price;
   final String ingredint;
   final Function onClick;
+  final Dishes? dishes;
 
   const DetailItemCard({
     Key? key,
@@ -17,6 +21,7 @@ class DetailItemCard extends StatefulWidget {
     required this.price,
     required this.ingredint,
     required this.onClick,
+    this.dishes,
   }) : super(key: key);
 
   @override
@@ -28,7 +33,7 @@ class _DetailItemCardState extends State<DetailItemCard>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isHovering = false;
-
+  final DishController dishController = Get.find<DishController>();
   @override
   void initState() {
     super.initState();
@@ -129,20 +134,178 @@ class _DetailItemCardState extends State<DetailItemCard>
                     borderRadius: BorderRadius.circular(10),
                     child: Stack(
                       children: [
-                        Image.asset(
-                          'assets/restaurants/tiger_suger.jpg',
-                          fit: BoxFit.contain,
-                          width: Responsive.isTablet(context)
-                              ? width * 0.13
-                              : Responsive.isMobile(context)
-                                  ? width * 0.23
-                                  : width * 0.13,
-                          height: Responsive.isTablet(context)
-                              ? width * 0.16
-                              : Responsive.isMobile(context)
-                                  ? height * 0.14
-                                  : height * 0.2,
-                        ),
+                        widget.dishes?.category == "Fried Chicken"
+                            ? Image.asset(
+                                'assets/restaurants/chickenFried.jpg',
+                                fit: BoxFit.contain,
+                                width: Responsive.isTablet(context)
+                                    ? width * 0.13
+                                    : Responsive.isMobile(context)
+                                        ? width * 0.23
+                                        : width * 0.13,
+                                height: Responsive.isTablet(context)
+                                    ? width * 0.16
+                                    : Responsive.isMobile(context)
+                                        ? height * 0.14
+                                        : height * 0.2,
+                              )
+                            : widget.dishes?.category == "Drink"
+                                ? Image.asset(
+                                    'assets/restaurants/drink.jpg',
+                                    fit: BoxFit.contain,
+                                    width: Responsive.isTablet(context)
+                                        ? width * 0.13
+                                        : Responsive.isMobile(context)
+                                            ? width * 0.23
+                                            : width * 0.13,
+                                    height: Responsive.isTablet(context)
+                                        ? width * 0.16
+                                        : Responsive.isMobile(context)
+                                            ? height * 0.14
+                                            : height * 0.2,
+                                  )
+                                : widget.dishes?.category == "Sandwich"
+                                    ? Image.asset(
+                                        'assets/restaurants/sandwich.jpg',
+                                        fit: BoxFit.contain,
+                                        width: Responsive.isTablet(context)
+                                            ? width * 0.13
+                                            : Responsive.isMobile(context)
+                                                ? width * 0.23
+                                                : width * 0.13,
+                                        height: Responsive.isTablet(context)
+                                            ? width * 0.16
+                                            : Responsive.isMobile(context)
+                                                ? height * 0.14
+                                                : height * 0.2,
+                                      )
+                                    : widget.dishes?.category == "Appetizer"
+                                        ? Image.asset(
+                                            'assets/restaurants/appetizer.jpg',
+                                            fit: BoxFit.contain,
+                                            width: Responsive.isTablet(context)
+                                                ? width * 0.13
+                                                : Responsive.isMobile(context)
+                                                    ? width * 0.23
+                                                    : width * 0.13,
+                                            height: Responsive.isTablet(context)
+                                                ? width * 0.16
+                                                : Responsive.isMobile(context)
+                                                    ? height * 0.14
+                                                    : height * 0.2,
+                                          )
+                                        : widget.dishes?.category == "Coffee"
+                                            ? Image.asset(
+                                                'assets/restaurants/coffee.jpg',
+                                                fit: BoxFit.contain,
+                                                width:
+                                                    Responsive.isTablet(context)
+                                                        ? width * 0.13
+                                                        : Responsive.isMobile(
+                                                                context)
+                                                            ? width * 0.23
+                                                            : width * 0.13,
+                                                height:
+                                                    Responsive.isTablet(context)
+                                                        ? width * 0.16
+                                                        : Responsive.isMobile(
+                                                                context)
+                                                            ? height * 0.14
+                                                            : height * 0.2,
+                                              )
+                                            : widget.dishes?.category == "Mala"
+                                                ? Image.asset(
+                                                    'assets/restaurants/mala.jpg',
+                                                    fit: BoxFit.contain,
+                                                    width: Responsive.isTablet(
+                                                            context)
+                                                        ? width * 0.13
+                                                        : Responsive.isMobile(
+                                                                context)
+                                                            ? width * 0.23
+                                                            : width * 0.13,
+                                                    height: Responsive.isTablet(
+                                                            context)
+                                                        ? width * 0.16
+                                                        : Responsive.isMobile(
+                                                                context)
+                                                            ? height * 0.14
+                                                            : height * 0.2,
+                                                  )
+                                                : widget.dishes?.category ==
+                                                        "Hotpot"
+                                                    ? Image.asset(
+                                                        'assets/restaurants/hotpot.jpg',
+                                                        fit: BoxFit.contain,
+                                                        width: Responsive
+                                                                .isTablet(
+                                                                    context)
+                                                            ? width * 0.13
+                                                            : Responsive
+                                                                    .isMobile(
+                                                                        context)
+                                                                ? width * 0.23
+                                                                : width * 0.13,
+                                                        height: Responsive
+                                                                .isTablet(
+                                                                    context)
+                                                            ? width * 0.16
+                                                            : Responsive
+                                                                    .isMobile(
+                                                                        context)
+                                                                ? height * 0.14
+                                                                : height * 0.2,
+                                                      )
+                                                    : widget.dishes?.category ==
+                                                            "Chocolate"
+                                                        ? Image.asset(
+                                                            'assets/restaurants/chocolate.jpg',
+                                                            fit: BoxFit.contain,
+                                                            width: Responsive
+                                                                    .isTablet(
+                                                                        context)
+                                                                ? width * 0.13
+                                                                : Responsive.isMobile(
+                                                                        context)
+                                                                    ? width *
+                                                                        0.23
+                                                                    : width *
+                                                                        0.13,
+                                                            height: Responsive
+                                                                    .isTablet(
+                                                                        context)
+                                                                ? width * 0.16
+                                                                : Responsive.isMobile(
+                                                                        context)
+                                                                    ? height *
+                                                                        0.14
+                                                                    : height *
+                                                                        0.2,
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/restaurants/tiger_suger.jpg',
+                                                            fit: BoxFit.contain,
+                                                            width: Responsive
+                                                                    .isTablet(
+                                                                        context)
+                                                                ? width * 0.13
+                                                                : Responsive.isMobile(
+                                                                        context)
+                                                                    ? width *
+                                                                        0.23
+                                                                    : width *
+                                                                        0.13,
+                                                            height: Responsive
+                                                                    .isTablet(
+                                                                        context)
+                                                                ? width * 0.16
+                                                                : Responsive.isMobile(
+                                                                        context)
+                                                                    ? height *
+                                                                        0.14
+                                                                    : height *
+                                                                        0.2,
+                                                          ),
                         Positioned(
                             child: Container(
                           decoration: const BoxDecoration(

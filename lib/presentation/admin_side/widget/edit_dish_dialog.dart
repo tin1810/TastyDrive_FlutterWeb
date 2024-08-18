@@ -109,30 +109,65 @@ void editDishDialog(Dishes dish) {
                 ),
               ),
             ),
+
             CustomTextField(
               controller: dishController.priceController,
             ),
             const SizedBox(
               height: 10,
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Text(
-                  "Category",
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+            Obx(() => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  child: DropdownButton<String>(
+                    value: dishController.selectedCategory.value.isEmpty
+                        ? null
+                        : dishController.selectedCategory.value,
+                    items: <String>[
+                      'Drink',
+                      'Coffee',
+                      'Fried Chicken',
+                      'Appetizer',
+                      'Sandwich'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      dishController.updateSelectedCategory(newValue!);
+                    },
+                    hint: Text(
+                      dishController.selectedCategory.value.isEmpty
+                          ? "Select a Category"
+                          : dishController.selectedCategory.value,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            CustomTextField(
-              controller: dishController.categoryController,
-            ),
+                )),
+            // Align(
+            //   alignment: Alignment.topLeft,
+            //   child: Padding(
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            //     child: Text(
+            //       "Category",
+            //       style: GoogleFonts.poppins(
+            //         fontSize: 15,
+            //         color: Colors.black,
+            //         fontWeight: FontWeight.w500,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // CustomTextField(
+            //   controller: dishController.categoryController,
+            // ),
             SizedBox(
               height: 10,
             ),

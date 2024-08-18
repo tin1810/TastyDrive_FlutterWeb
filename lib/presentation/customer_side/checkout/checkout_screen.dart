@@ -52,7 +52,36 @@ class CheckoutScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return CartItem(
-                          imageUrl: 'assets/restaurants/tiger_suger.jpg',
+                          imageUrl: addToCart.addToCart?[index].category ==
+                                  "Coffee"
+                              ? 'assets/restaurants/coffee.jpg'
+                              : addToCart.addToCart?[index].category == "Drink"
+                                  ? 'assets/restaurants/coffee.jpg'
+                                  : addToCart.addToCart?[index].category ==
+                                          "Chocolate"
+                                      ? 'assets/restaurants/chocolate.jpg'
+                                      : addToCart.addToCart?[index].category ==
+                                              "Hotpot"
+                                          ? 'assets/restaurants/hotpot.jpg'
+                                          : addToCart.addToCart?[index]
+                                                      .category ==
+                                                  "Mala"
+                                              ? 'assets/restaurants/mala.jpg'
+                                              : addToCart.addToCart?[index]
+                                                          .category ==
+                                                      "Sandwich"
+                                                  ? 'assets/restaurants/sandwich.jpg'
+                                                  : addToCart.addToCart?[index]
+                                                              .category ==
+                                                          "Fried Chicken"
+                                                      ? 'assets/restaurants/chickenFried.jpg'
+                                                      : addToCart
+                                                                  .addToCart?[
+                                                                      index]
+                                                                  .category ==
+                                                              "Appetizer"
+                                                          ? 'assets/restaurants/appetizer.jpg'
+                                                          : 'assets/restaurants/tiger_suger.jpg',
                           title: addToCart.addToCart?[index].name ?? "",
                           description:
                               addToCart.addToCart?[index].description ?? "",

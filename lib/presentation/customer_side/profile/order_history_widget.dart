@@ -68,6 +68,27 @@ class OrderHistoryWidget extends StatelessWidget {
                     allOrderItems[index],
                     correspondingOrder.tastydriveusers?.name,
                     correspondingOrder.tastydriveusers?.address,
+                    allOrderItems[index].category == "Coffee"
+                        ? 'assets/restaurants/coffee.jpg'
+                        : allOrderItems[index].category == "Drink"
+                            ? 'assets/restaurants/coffee.jpg'
+                            : allOrderItems[index].category == "Chocolate"
+                                ? 'assets/restaurants/chocolate.jpg'
+                                : allOrderItems[index].category == "Hotpot"
+                                    ? 'assets/restaurants/hotpot.jpg'
+                                    : allOrderItems[index].category == "Mala"
+                                        ? 'assets/restaurants/mala.jpg'
+                                        : allOrderItems[index].category ==
+                                                "Sandwich"
+                                            ? 'assets/restaurants/sandwich.jpg'
+                                            : allOrderItems[index].category ==
+                                                    "Fried Chicken"
+                                                ? 'assets/restaurants/chickenFried.jpg'
+                                                : allOrderItems[index]
+                                                            .category ==
+                                                        "Appetizer"
+                                                    ? 'assets/restaurants/appetizer.jpg'
+                                                    : 'assets/restaurants/tiger_suger.jpg',
                   );
                 },
               );

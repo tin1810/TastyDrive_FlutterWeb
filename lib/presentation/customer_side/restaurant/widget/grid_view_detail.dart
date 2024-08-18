@@ -86,6 +86,7 @@ class GridViewDetail extends StatelessWidget {
                   itemName: clickedDish?.name ?? "",
                   price: clickedDish?.price?.toInt() ?? 0,
                   ingredint: clickedDish?.description ?? "",
+                  dishes: clickedDish,
                   onClick: () {
                     if (clickedDish != null) {
                       print('Clicked dish: ${clickedDish.name}');

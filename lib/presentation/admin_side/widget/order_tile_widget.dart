@@ -96,11 +96,12 @@ class OrderTileUser extends StatelessWidget {
   final OrderItems? order;
   final String? userName;
   final String? address;
-
+  final String? image;
   OrderTileUser(
     this.order,
     this.userName,
     this.address,
+    this.image,
   );
 
   @override
@@ -144,7 +145,7 @@ class OrderTileUser extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  'assets/restaurants/daddy_bubble_tea_tiger_sugar.jpg', // Placeholder image for product
+                  image ?? "", // Placeholder image for product
                   width: 50,
                   height: 50,
                 ),

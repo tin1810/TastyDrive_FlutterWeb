@@ -1,13 +1,20 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasty_drive_website/controller/dish_controller.dart';
 import 'package:tasty_drive_website/presentation/admin_side/widget/custom_textfield.dart';
 
 void showAddDishDialog(int id) {
   final DishController dishController = Get.put(DishController());
+
+  // Define your categories
+  final List<String> categories = [
+    "Drink",
+    "Coffee",
+    "Fried Chicken",
+    "Appetizer"
+  ];
 
   Get.dialog(
     AlertDialog(
@@ -127,9 +134,41 @@ void showAddDishDialog(int id) {
                 ),
               ),
             ),
-            CustomTextField(
-              controller: dishController.categoryController,
-            ),
+            Obx(() => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  child: DropdownButton<String>(
+                    value: dishController.selectedCategory.value.isEmpty
+                        ? null
+                        : dishController.selectedCategory.value,
+                    items: <String>[
+                      'Drink',
+                      'Coffee',
+                      'Fried Chicken',
+                      'Appetizer',
+                      'Sandwich',
+                      'Mala',
+                      'Hotpot',
+                      'Chocolate'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      dishController.updateSelectedCategory(newValue!);
+                    },
+                    hint: Text(
+                      "Select a Category",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                )),
             const SizedBox(
               height: 10,
             ),
@@ -190,46 +229,6 @@ void showAddDishDialog(int id) {
                 ),
               ),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () async {
-            //         // imageUploadController.pickImage();
-            //         final input = html.FileUploadInputElement();
-            //         input.accept = 'image/*';
-            //         input.onChange.listen((e) async {
-            //           final files = input.files;
-            //           if (files!.isEmpty) {
-            //             Get.snackbar("No Image Selected", "");
-            //             return;
-            //           }
-            //           final file = files[0];
-            //           final reader = html.FileReader();
-            //           reader.readAsArrayBuffer(file);
-            //           reader.onLoadEnd.listen((_) async {
-            //             final fileBytes = reader.result as Uint8List;
-            //             dishController.onPickUpImage(fileBytes, file.name);
-            //           });
-            //         });
-            //         input.click();
-            //       },
-            //       child: const Text('Pick Image'),
-            //     ),
-            //     // Obx(() {
-            //     //   return imageUploadController.selectedImageBase64.value != null
-            //     //       ? Image.network(
-            //     //           'data:image/png;base64,${imageUploadController.selectedImageBase64.value!}',
-            //     //           height: 100,
-            //     //           width: 100,
-            //     //           fit: BoxFit.cover,
-            //     //         )
-            //     //       : const Text('No image selected');
-            //     // }),
-            //   ],
-            // ),
-            // // Display selected image
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: MaterialButton(

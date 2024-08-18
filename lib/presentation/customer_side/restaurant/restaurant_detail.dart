@@ -31,6 +31,15 @@ class RestaurantDetailScreen extends StatelessWidget {
               width: width,
               name: restaurants?.name ?? "",
               time: restaurants?.time ?? "",
+              image: restaurants?.name == "Subway"
+                  ? "assets/restaurants/subway.jpg"
+                  : restaurants?.name == "StarBuck"
+                      ? "assets/restaurants/starbuck.jpg"
+                      : restaurants?.name == "La Meow"
+                          ? "assets/restaurants/lameow.jpg"
+                          : restaurants?.name == "KFC"
+                              ? "assets/restaurants/kfc.jpg"
+                              : "assets/restaurants/percent.jpg",
             ),
             CustomPaint(
               size: Size(width, 1), // Set the desired size

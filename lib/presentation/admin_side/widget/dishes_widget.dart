@@ -70,15 +70,51 @@ class DishesWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            image: const DecorationImage(
+                            image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage(
-                                "assets/restaurants/tiger_suger.jpg",
-                              ),
+                              image: filteredDishes[index].category == "Drink"
+                                  ? const AssetImage(
+                                      "assets/restaurants/drink.jpg")
+                                  : filteredDishes[index].category ==
+                                          "Appetizer"
+                                      ? const AssetImage(
+                                          "assets/restaurants/appetizer.jpg")
+                                      : filteredDishes[index].category ==
+                                              "Fried Chicken"
+                                          ? const AssetImage(
+                                              "assets/restaurants/chickenFried.jpg")
+                                          : filteredDishes[index].category ==
+                                                  "Chocolate"
+                                              ? const AssetImage(
+                                                  "assets/restaurants/chocolate.jpg")
+                                              : filteredDishes[index]
+                                                          .category ==
+                                                      "Mala"
+                                                  ? const AssetImage(
+                                                      "assets/restaurants/mala.jpg")
+                                                  : filteredDishes[index]
+                                                              .category ==
+                                                          "Hotpot"
+                                                      ? const AssetImage(
+                                                          "assets/restaurants/hotpot.jpg")
+                                                      : filteredDishes[index]
+                                                                  .category ==
+                                                              "Coffee"
+                                                          ? const AssetImage(
+                                                              "assets/restaurants/coffee.jpg",
+                                                            )
+                                                          : filteredDishes[
+                                                                          index]
+                                                                      .category ==
+                                                                  "Sandwich"
+                                                              ? const AssetImage(
+                                                                  "assets/restaurants/sandwich.jpg",
+                                                                )
+                                                              : const AssetImage(
+                                                                  "assets/restaurants/tiger_suger.jpg",
+                                                                ),
                             ),
                           ),
-                          // child: Image.memory(
-                          //   base64Decode(dish.dishes?[index].photoPath ?? ""),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),

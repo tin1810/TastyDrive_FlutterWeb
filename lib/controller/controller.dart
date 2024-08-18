@@ -32,13 +32,13 @@ class RestaurantController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
-    distanceController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    locationController.dispose();
-    descriptionController.dispose();
-    timeController.dispose();
+    // nameController.dispose();
+    // distanceController.dispose();
+    // emailController.dispose();
+    // passwordController.dispose();
+    // locationController.dispose();
+    // descriptionController.dispose();
+    // timeController.dispose();
 
     super.onClose();
   }
